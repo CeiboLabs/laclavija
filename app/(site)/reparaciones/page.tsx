@@ -87,9 +87,9 @@ const STEPS = [
       "Diagnóstico honesto: qué necesita, qué es opcional, qué no vale la pena. Presupuesto cerrado antes de tocar nada.",
   },
   {
-    title: "Coordinamos punto de encuentro",
+    title: "Coordinamos punto de encuentro o envío",
     description:
-      "Acordamos un punto de encuentro en Montevideo para que nos llegue la guitarra. Cuando está lista, hacemos lo mismo para devolvértela.",
+      "En Montevideo acordamos un punto de encuentro. Si estás en el interior, arreglamos envío por WhatsApp según la zona. Cuando la guitarra está lista, hacemos lo mismo para devolvértela.",
   },
 ];
 

@@ -8,13 +8,9 @@ import { BUSINESS, whatsappLink } from "@/lib/constants";
 
 export const metadata: Metadata = {
   title: "Nosotros",
-  description: `Quiénes están detrás de ${BUSINESS.name} — luthier y coleccionista, ${BUSINESS.yearsInBusiness} años comprando y vendiendo guitarras en Montevideo.`,
+  description: `Quiénes están detrás de ${BUSINESS.name} — coleccionista y curador de guitarras en Montevideo, Uruguay.`,
   alternates: { canonical: "/nosotros" },
 };
-
-const mapEmbedSrc = `https://www.google.com/maps?q=${encodeURIComponent(
-  `${BUSINESS.location.lat},${BUSINESS.location.lng}`,
-)}&z=15&output=embed`;
 
 export default function AboutPage() {
   return (
@@ -22,7 +18,7 @@ export default function AboutPage() {
       <header className="container-prose px-5 sm:px-8">
         <p className="mono-meta text-accent">Nosotros</p>
         <h1 className="mt-5 font-serif text-5xl md:text-6xl tracking-tight leading-[1.05]">
-          Llevamos {BUSINESS.yearsInBusiness} años eligiendo guitarras,
+          Elegimos guitarras
           <span className="italic font-light text-muted-foreground"> una por una.</span>
         </h1>
       </header>
@@ -103,48 +99,38 @@ export default function AboutPage() {
         </p>
       </div>
 
-      <Reveal className="mt-20 md:mt-28 max-w-5xl mx-auto px-5 sm:px-8">
-        <div className="grid md:grid-cols-2 gap-10 md:gap-12 items-start">
-          <div>
-            <p className="mono-meta text-accent">Coordinar encuentro</p>
-            <h2 className="mt-4 font-serif text-3xl tracking-tight">Todo por WhatsApp.</h2>
-            <p className="mt-5 text-muted-foreground leading-relaxed">
-              No tenemos local abierto al público. Coordinamos punto de encuentro en Montevideo por WhatsApp
-              para que puedas probar la guitarra que te interesa con tiempo y sin apuro.
-            </p>
-            <p className="mt-3 inline-flex items-center gap-2 text-muted-foreground">
-              <MapPin className="size-4" />
-              {BUSINESS.city}
-            </p>
-            <div className="mt-8 flex flex-wrap gap-3">
-              <Button asChild variant="accent">
-                <a
-                  href={whatsappLink("Hola! Quería coordinar un encuentro para ver una guitarra.")}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  <MessageCircle className="size-4" />
-                  Coordinar encuentro
-                </a>
-              </Button>
-              <Button asChild variant="outline">
-                <Link href="/catalogo">
-                  Ver catálogo
-                  <ArrowRight className="size-4" />
-                </Link>
-              </Button>
-            </div>
-          </div>
-          <div className="aspect-[4/3] w-full overflow-hidden rounded-md border border-border bg-secondary">
-            <iframe
-              src={mapEmbedSrc}
-              title="Ubicación en Google Maps"
-              loading="lazy"
-              referrerPolicy="no-referrer-when-downgrade"
-              className="w-full h-full"
-              allowFullScreen
-            />
-          </div>
+      <Reveal className="mt-20 md:mt-28 max-w-2xl mx-auto px-5 sm:px-8 text-center">
+        <p className="mono-meta text-accent">Coordinar encuentro</p>
+        <h2 className="mt-4 font-serif text-3xl tracking-tight">Todo por WhatsApp.</h2>
+        <p className="mt-5 text-muted-foreground leading-relaxed">
+          No tenemos local abierto al público. Coordinamos punto de encuentro en Montevideo por WhatsApp
+          para que puedas probar la guitarra que te interesa con tiempo y sin apuro.
+        </p>
+        <p className="mt-4 text-muted-foreground leading-relaxed">
+          Si estás en el interior, <span className="text-foreground">hacemos envíos a todo el país</span> —
+          coordinamos por WhatsApp según el instrumento y la zona.
+        </p>
+        <p className="mt-4 inline-flex items-center gap-2 text-muted-foreground">
+          <MapPin className="size-4" />
+          {BUSINESS.city}
+        </p>
+        <div className="mt-8 flex flex-wrap gap-3 justify-center">
+          <Button asChild variant="accent">
+            <a
+              href={whatsappLink("Hola! Quería coordinar un encuentro para ver una guitarra.")}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <MessageCircle className="size-4" />
+              Coordinar encuentro
+            </a>
+          </Button>
+          <Button asChild variant="outline">
+            <Link href="/catalogo">
+              Ver catálogo
+              <ArrowRight className="size-4" />
+            </Link>
+          </Button>
         </div>
       </Reveal>
     </article>

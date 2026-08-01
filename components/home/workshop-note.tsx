@@ -45,8 +45,8 @@ export function WorkshopNote() {
                 subirlo al catálogo.
               </p>
               <p className="text-foreground/85">
-                Coordinamos entrega en Montevideo por WhatsApp. Reparaciones también:
-                setup, cambio de trastes, electrónica, amps.
+                Coordinamos entrega en Montevideo y hacemos envíos a todo el país por WhatsApp.
+                Reparaciones también: setup, cambio de trastes, electrónica, amps.
               </p>
             </div>
             <div className="mt-8 flex flex-wrap gap-2 text-xs">

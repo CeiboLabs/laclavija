@@ -6,7 +6,7 @@ export const BUSINESS = {
   tagline: "Guitarras seleccionadas. Compra, venta y permuta en Montevideo.",
   // Descripción larga para structured data / meta description del home.
   description:
-    "La Clavija: compra, venta y permuta de guitarras eléctricas, acústicas, clásicas y bajos en Montevideo, Uruguay. Instrumentos seleccionados, tasación rápida y pago en efectivo o transferencia. Coordinamos entrega.",
+    "La Clavija: compra, venta y permuta de guitarras eléctricas, acústicas, clásicas, bajos y amplificadores en Montevideo, Uruguay. Instrumentos seleccionados, tasación rápida y pago en efectivo o transferencia. Coordinamos entrega en Montevideo y hacemos envíos a todo el país.",
   city: "Montevideo, Uruguay",
   address: "Por consulta — coordinar entrega",
   // El negocio no tiene local: se coordina entrega. areaServed para SEO local.

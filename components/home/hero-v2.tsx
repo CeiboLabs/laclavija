@@ -60,7 +60,7 @@ export function HeroV2() {
         className="relative h-full w-full mx-auto max-w-(--container-2xl) flex flex-col justify-end px-5 sm:px-8 pb-16 md:pb-24"
       >
         <motion.p variants={itemVariants} className="mono-meta text-accent">
-          Est. Pocitos, Montevideo
+          Montevideo, Uruguay
         </motion.p>
         <motion.h1
           variants={itemVariants}

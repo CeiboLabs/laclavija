@@ -29,7 +29,7 @@ export function localBusinessSchema() {
     telephone: telephone(),
     priceRange: "$$",
     currenciesAccepted: "UYU, USD",
-    paymentAccepted: "Efectivo, Transferencia bancaria",
+    paymentAccepted: "Efectivo (UYU y USD), Transferencia bancaria",
     address: {
       "@type": "PostalAddress",
       addressLocality: BUSINESS.addressLocality,

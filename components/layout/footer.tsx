@@ -48,7 +48,7 @@ export async function Footer() {
             </div>
             <div className="flex flex-col leading-none">
               <Wordmark size="lg" />
-              <span className="mono-meta text-[0.6rem] mt-2 opacity-70">Est. 2015 · Pocitos</span>
+              <span className="mono-meta text-[0.6rem] mt-2 opacity-70">Montevideo, Uruguay</span>
             </div>
           </div>
           <p className="mt-6 max-w-sm text-sm text-muted-foreground leading-relaxed">

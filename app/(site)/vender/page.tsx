@@ -34,6 +34,11 @@ const FAQS = [
       "No, coordinamos nosotros. Cuando hay interés mutuo después del intercambio inicial, acordamos un punto de encuentro en Montevideo para verla en persona.",
   },
   {
+    question: "¿Están solo en Montevideo o compran en el interior?",
+    answer:
+      "Compramos y vendemos en todo el país. En Montevideo coordinamos punto de encuentro; en el interior arreglamos por WhatsApp cómo llega el instrumento (encomienda, transporte, etc.) y ajustamos el precio o el flete según corresponda.",
+  },
+  {
     question: "¿Compran solo guitarras o también amplis y pedales?",
     answer:
       "Nos enfocamos en guitarras (eléctricas, acústicas, clásicas y bajos). Amplis y pedales solo si vienen en lote con una guitarra que nos interese.",

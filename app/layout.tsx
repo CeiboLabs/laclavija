@@ -49,6 +49,12 @@ export const metadata: Metadata = {
     description: BUSINESS.tagline,
   },
   robots: { index: true, follow: true },
+  // Cuando des de alta el sitio en Google Search Console, Google te va a pedir un
+  // meta tag para verificar la propiedad. Pegá el token acá (el string después
+  // de content=... en el tag que te da Google) o dejalo vacío si todavía no.
+  verification: {
+    google: process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION,
+  },
 };
 
 export const viewport: Viewport = {
