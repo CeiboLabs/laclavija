@@ -18,6 +18,7 @@ export type GuitarFormInitial = Partial<
     | "brand"
     | "model"
     | "year"
+    | "category"
     | "type"
     | "price_usd"
     | "price_uyu"
@@ -51,6 +52,8 @@ export function GuitarForm({
   const [yearUnknown, setYearUnknown] = React.useState(
     initial !== undefined && (initial.year === null || initial.year === undefined),
   );
+  const [category, setCategory] = React.useState<"guitar" | "amp" | "accessory">(initial?.category ?? "guitar");
+  const isGuitar = category === "guitar";
 
   // Toasts según resultado (en edit; create hace redirect y no llega).
   React.useEffect(() => {
@@ -62,6 +65,21 @@ export function GuitarForm({
 
   return (
     <form action={formAction} className="grid gap-6">
+      <Field id="category" label="Categoría *">
+        <select
+          id="category"
+          name="category"
+          value={category}
+          onChange={(e) => setCategory(e.target.value as "guitar" | "amp" | "accessory")}
+          className="rounded-md border border-input bg-background px-3 py-2 text-sm h-10 sm:max-w-xs"
+          required
+        >
+          <option value="guitar">Guitarra</option>
+          <option value="amp">Amplificador</option>
+          <option value="accessory">Accesorio</option>
+        </select>
+      </Field>
+
       <div className="grid sm:grid-cols-2 gap-4">
         <Field id="brand" label="Marca *">
           <Input id="brand" name="brand" defaultValue={initial?.brand ?? ""} required />
@@ -95,38 +113,31 @@ export function GuitarForm({
             </label>
           </div>
         </Field>
-        <Field id="type" label="Tipo *">
-          <select
-            id="type"
-            name="type"
-            defaultValue={initial?.type ?? "electric"}
-            className="rounded-md border border-input bg-background px-3 py-2 text-sm h-10"
-            required
-          >
-            <option value="electric">Eléctrica</option>
-            <option value="acoustic">Acústica</option>
-            <option value="classical">Clásica</option>
-            <option value="bass">Bajo</option>
-          </select>
-        </Field>
+        {isGuitar ? (
+          <Field id="type" label="Tipo *">
+            <select
+              id="type"
+              name="type"
+              defaultValue={initial?.type ?? "electric"}
+              className="rounded-md border border-input bg-background px-3 py-2 text-sm h-10"
+              required
+            >
+              <option value="electric">Eléctrica</option>
+              <option value="acoustic">Acústica</option>
+              <option value="classical">Clásica</option>
+              <option value="bass">Bajo</option>
+            </select>
+          </Field>
+        ) : null}
       </div>
 
       <div className="grid gap-2">
         <Label>Precios</Label>
         <p className="text-xs text-muted-foreground -mt-1">
-          Cargá al menos uno. Si dejás ambos vacíos, no se va a poder guardar.
+          Cargá <span className="text-foreground">UYU</span> (es el que se muestra en el sitio).
+          USD es opcional — se guarda pero no se muestra.
         </p>
         <div className="grid sm:grid-cols-2 gap-4">
-          <Field id="price_usd" label="USD">
-            <Input
-              id="price_usd"
-              name="price_usd"
-              type="number"
-              min={0}
-              defaultValue={initial?.price_usd ?? ""}
-              placeholder="ej: 2400"
-            />
-          </Field>
           <Field id="price_uyu" label="UYU">
             <Input
               id="price_uyu"
@@ -135,6 +146,16 @@ export function GuitarForm({
               min={0}
               defaultValue={initial?.price_uyu ?? ""}
               placeholder="ej: 95000"
+            />
+          </Field>
+          <Field id="price_usd" label="USD (opcional, no se muestra)">
+            <Input
+              id="price_usd"
+              name="price_usd"
+              type="number"
+              min={0}
+              defaultValue={initial?.price_usd ?? ""}
+              placeholder="ej: 2400"
             />
           </Field>
         </div>
@@ -196,15 +217,19 @@ export function GuitarForm({
         />
       </Field>
 
-      <Field id="long_description" label="Descripción larga">
+      <div className="grid gap-2">
+        <Label htmlFor="long_description">La historia (opcional)</Label>
+        <p className="text-xs text-muted-foreground -mt-1">
+          Cuenta la historia del instrumento si la sabés. Si lo dejás vacío, la sección no aparece en el sitio.
+        </p>
         <Textarea
           id="long_description"
           name="long_description"
           rows={8}
           defaultValue={initial?.long_description ?? ""}
-          placeholder="La historia. Separá párrafos con doble salto de línea."
+          placeholder="Ej: la trajo de EEUU en el 2000, la usó en tres bandas... Separá párrafos con doble salto de línea."
         />
-      </Field>
+      </div>
 
       <div className="grid gap-2">
         <Label>Especificaciones</Label>
@@ -219,7 +244,7 @@ export function GuitarForm({
 
       <div className="flex items-center gap-3 pt-2 border-t border-border">
         <ConfirmSubmitButton
-          title={isNew ? "¿Publicar guitarra?" : "¿Guardar cambios?"}
+          title={isNew ? "¿Publicar producto?" : "¿Guardar cambios?"}
           description={
             isNew
               ? "Se va a publicar en el catálogo público al instante."

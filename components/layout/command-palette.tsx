@@ -31,7 +31,7 @@ type SearchItem = {
   model: string;
   year: number | null;
   type: string;
-  price_usd: number | null;
+  price_uyu: number | null;
   image: string | null;
 };
 
@@ -43,9 +43,9 @@ const PAGES: { label: string; href: string; icon: React.ComponentType<{ classNam
   { label: "Nosotros", href: "/nosotros", icon: Home },
 ];
 
-function priceLabel(usd: number | null) {
-  if (typeof usd !== "number") return "Consultar";
-  return new Intl.NumberFormat("en-US", { style: "currency", currency: "USD", maximumFractionDigits: 0 }).format(usd);
+function priceLabel(uyu: number | null) {
+  if (typeof uyu !== "number") return "Consultar";
+  return `$U ${new Intl.NumberFormat("es-UY", { maximumFractionDigits: 0 }).format(uyu)}`;
 }
 
 export function CommandPalette() {
@@ -94,9 +94,6 @@ export function CommandPalette() {
       >
         <Search className="size-4" />
         <span className="text-xs uppercase tracking-widest">Buscar</span>
-        <kbd className="ml-1 hidden lg:inline-flex h-5 items-center rounded border border-border bg-card/60 px-1.5 text-[10px] tracking-wider text-muted-foreground">
-          ⌘K
-        </kbd>
       </Button>
       <Button
         variant="ghost"
@@ -204,7 +201,7 @@ export function CommandPalette() {
                       </span>
                       <span className="text-xs text-muted-foreground">
                         {g.year ? `${g.year} · ` : ""}
-                        {priceLabel(g.price_usd)}
+                        {priceLabel(g.price_uyu)}
                       </span>
                     </span>
                   </CommandItem>

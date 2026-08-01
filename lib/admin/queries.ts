@@ -1,9 +1,10 @@
 import { createServerSupabase } from "@/lib/supabase/server";
 import { publicImageUrl } from "@/lib/supabase/storage";
-import type { Guitar, GuitarSpecs, GuitarStatus, GuitarType } from "@/lib/types";
+import type { Guitar, GuitarSpecs, GuitarStatus, GuitarType, ProductCategory } from "@/lib/types";
 
 export type AdminGuitarFilters = {
   q?: string;
+  category?: ProductCategory;
   type?: GuitarType;
   status?: GuitarStatus | "all";
   featured?: boolean;
@@ -17,7 +18,7 @@ export type AdminGuitarRow = Omit<Guitar, "images"> & {
 };
 
 const SELECT = `
-  id, slug, brand, model, year, type, price_usd, price_uyu, discount_percent, status, featured,
+  id, slug, brand, model, year, category, type, price_usd, price_uyu, discount_percent, status, featured,
   short_description, long_description, specs, created_at,
   guitar_images ( id, storage_path, position )
 `;
@@ -28,7 +29,8 @@ function mapRow(row: {
   brand: string;
   model: string;
   year: number | null;
-  type: GuitarType;
+  category: ProductCategory | null;
+  type: GuitarType | null;
   price_usd: number | null;
   price_uyu: number | null;
   discount_percent: number | null;
@@ -54,6 +56,7 @@ function mapRow(row: {
     brand: row.brand,
     model: row.model,
     year: row.year,
+    category: row.category ?? "guitar",
     type: row.type,
     price_usd: row.price_usd,
     price_uyu: row.price_uyu,
@@ -74,6 +77,7 @@ export async function listAdminGuitars(
 ): Promise<AdminGuitarRow[]> {
   const supabase = await createServerSupabase();
   let q = supabase.from("guitars").select(SELECT).order("created_at", { ascending: false });
+  if (filters.category) q = q.eq("category", filters.category);
   if (filters.type) q = q.eq("type", filters.type);
   if (filters.status && filters.status !== "all") q = q.eq("status", filters.status);
   if (typeof filters.featured === "boolean") q = q.eq("featured", filters.featured);

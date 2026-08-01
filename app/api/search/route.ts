@@ -11,7 +11,7 @@ export async function GET() {
     model: g.model,
     year: g.year,
     type: g.type,
-    price_usd: g.price_usd,
+    price_uyu: g.price_uyu,
     image: g.images[0] ?? null,
   }));
   return NextResponse.json({ items });

@@ -4,7 +4,7 @@ import { ArrowDown, ArrowUp, MessageCircle } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { listAdminGuitars } from "@/lib/admin/queries";
 import { getGuitarStats, getSiteStats } from "@/lib/admin/stats";
-import { formatPrice, guitarTypeLabel } from "@/lib/format";
+import { categoryLabel, formatPrice, guitarTypeLabel } from "@/lib/format";
 
 type Search = Record<string, string | string[] | undefined>;
 
@@ -140,7 +140,7 @@ export default async function StatsPage({
                       {g.brand} {g.model}
                     </Link>
                     <p className="text-xs text-muted-foreground truncate">
-                      {guitarTypeLabel(g.type)} · {formatPrice({ usd: g.price_usd, uyu: g.price_uyu })}
+                      {g.category === "guitar" ? guitarTypeLabel(g.type) : categoryLabel(g.category)} · {formatPrice({ usd: g.price_usd, uyu: g.price_uyu })}
                     </p>
                   </div>
                 </div>

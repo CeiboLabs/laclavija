@@ -26,7 +26,7 @@ const FAQS = [
   {
     question: "¿Compran guitarras dañadas o sin caso?",
     answer:
-      "Sí, depende del estado. Mandanos fotos del daño y te tasamos igual. Restauramos en taller antes de revender, así que estado original no es deal-breaker.",
+      "Sí, depende del estado. Mandanos fotos del daño y te tasamos igual. La revisamos personalmente antes de revender, así que estado original no es deal-breaker.",
   },
   {
     question: "¿Tengo que ir a algún lado para que la vean?",
@@ -60,7 +60,7 @@ export default function SellPage() {
       <section className="relative overflow-hidden">
         <div className="mx-auto max-w-(--container-2xl) px-5 sm:px-8 pt-16 md:pt-28 pb-16 md:pb-24 grid lg:grid-cols-12 gap-10 items-center">
           <div className="lg:col-span-7">
-            <p className="text-xs uppercase tracking-[0.3em] text-accent">Vendé tu guitarra</p>
+            <p className="mono-meta text-accent">Vendé tu guitarra</p>
             <h1 className="mt-5 font-serif text-5xl md:text-7xl tracking-tight leading-[1.02]">
               Compramos guitarras
               <br />
@@ -81,7 +81,7 @@ export default function SellPage() {
             <div className="relative aspect-[4/5] w-full overflow-hidden rounded-md bg-secondary">
               <Image
                 src="/decor/sell-fretboard.webp"
-                alt="Detalle del mástil y los trastes de una guitarra"
+                alt="Detalle del mástil y cuerdas de una guitarra eléctrica"
                 fill
                 priority
                 sizes="(min-width: 1024px) 500px, 90vw"
@@ -94,11 +94,11 @@ export default function SellPage() {
 
       <section
         id="formulario"
-        className="mx-auto max-w-(--container-2xl) px-5 sm:px-8 py-24 md:py-32 border-t border-border scroll-mt-24"
+        className="mx-auto max-w-(--container-2xl) px-5 sm:px-8 py-24 md:py-32 border-t border-dashed border-border scroll-mt-24"
       >
         <div className="grid lg:grid-cols-12 gap-12">
           <div className="lg:col-span-5">
-            <p className="text-xs uppercase tracking-[0.3em] text-accent">Formulario</p>
+            <p className="mono-meta text-accent">Formulario</p>
             <h2 className="mt-4 font-serif text-4xl md:text-5xl tracking-tight">
               Contanos qué tenés.
             </h2>
@@ -117,8 +117,8 @@ export default function SellPage() {
 
       <section className="relative w-full h-[40vh] min-h-[280px] overflow-hidden">
         <Image
-          src="/decor/electric-pickup.webp"
-          alt="Detalle de cuerdas y pastillas de una guitarra eléctrica"
+          src="/decor/sell-body.webp"
+          alt="Detalle del cuerpo de una guitarra acústica bajo luz cálida"
           fill
           sizes="100vw"
           className="object-cover"
@@ -129,7 +129,7 @@ export default function SellPage() {
       <section className="mx-auto max-w-(--container-2xl) px-5 sm:px-8 pb-32 pt-24 md:pt-32">
         <div className="grid lg:grid-cols-12 gap-12">
           <div className="lg:col-span-4">
-            <p className="text-xs uppercase tracking-[0.3em] text-accent">Preguntas frecuentes</p>
+            <p className="mono-meta text-accent">Preguntas frecuentes</p>
             <h2 className="mt-4 font-serif text-4xl md:text-5xl tracking-tight">
               Lo que nos preguntan seguido.
             </h2>

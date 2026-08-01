@@ -1,5 +1,6 @@
 export type GuitarType = "electric" | "acoustic" | "classical" | "bass";
 export type GuitarStatus = "available" | "reserved" | "sold";
+export type ProductCategory = "guitar" | "amp" | "accessory";
 
 export type GuitarSpecs = {
   body_wood?: string;
@@ -13,6 +14,11 @@ export type GuitarSpecs = {
   serial?: string;
   condition?: string;
   accessories?: string[];
+  // Amp-specific (opcionales, todos amp usa specs libres)
+  watts?: number;
+  amp_type?: string; // valvular / estado solido / hibrido
+  channels?: number;
+  speaker?: string;
   [key: string]: unknown;
 };
 
@@ -22,7 +28,8 @@ export type Guitar = {
   brand: string;
   model: string;
   year: number | null;
-  type: GuitarType;
+  category: ProductCategory;
+  type: GuitarType | null;
   price_usd: number | null;
   price_uyu: number | null;
   discount_percent: number | null;

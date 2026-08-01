@@ -6,6 +6,7 @@ import { X } from "lucide-react";
 import { guitarTypeLabel, statusLabel } from "@/lib/format";
 
 const LABELS: Record<string, string> = {
+  categoria: "Categoría",
   type: "Tipo",
   brand: "Marca",
   minPrice: "Desde USD",
@@ -16,7 +17,14 @@ const LABELS: Record<string, string> = {
   q: "Búsqueda",
 };
 
+const CATEGORY_LABELS: Record<string, string> = {
+  guitar: "Guitarras",
+  amp: "Amplificadores",
+  accessory: "Accesorios",
+};
+
 function displayValue(key: string, value: string) {
+  if (key === "categoria") return CATEGORY_LABELS[value] ?? value;
   if (key === "type") return guitarTypeLabel(value);
   if (key === "status") return statusLabel(value);
   return value;

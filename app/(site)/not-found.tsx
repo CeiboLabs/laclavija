@@ -20,7 +20,7 @@ export default function NotFound() {
       <h1 className="mt-5 font-serif text-5xl md:text-7xl tracking-tight">
         Esa guitarra
         <br />
-        <span className="italic font-light text-muted-foreground">se fue del taller.</span>
+        <span className="italic font-light text-muted-foreground">no está más.</span>
       </h1>
       <p className="mt-8 text-muted-foreground max-w-md mx-auto">
         Puede que se haya vendido o que el link no exista. Probá volver al catálogo a ver qué tenemos hoy.

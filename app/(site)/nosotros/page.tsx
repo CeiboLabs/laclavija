@@ -20,7 +20,7 @@ export default function AboutPage() {
   return (
     <article className="pt-16 md:pt-28 pb-24">
       <header className="container-prose px-5 sm:px-8">
-        <p className="text-xs uppercase tracking-[0.3em] text-accent">Nosotros</p>
+        <p className="mono-meta text-accent">Nosotros</p>
         <h1 className="mt-5 font-serif text-5xl md:text-6xl tracking-tight leading-[1.05]">
           Llevamos {BUSINESS.yearsInBusiness} años eligiendo guitarras,
           <span className="italic font-light text-muted-foreground"> una por una.</span>
@@ -30,29 +30,29 @@ export default function AboutPage() {
       <Reveal className="my-16 md:my-24 mx-auto max-w-5xl px-5 sm:px-8">
         <div className="relative aspect-[5/3] w-full overflow-hidden rounded-md bg-secondary">
           <Image
-            src="/decor/headstock-tuning.webp"
-            alt="Afinando una guitarra en el taller"
+            src="/decor/about-workshop.webp"
+            alt="Pared con guitarras acústicas colgadas"
             fill
             priority
             sizes="(min-width: 1024px) 1200px, 100vw"
             className="object-cover"
           />
         </div>
-        <p className="mt-3 text-xs text-muted-foreground text-center italic">El taller en Pocitos.</p>
+        <p className="mt-3 text-xs text-muted-foreground text-center italic">Parte de la colección personal.</p>
       </Reveal>
 
       <div className="container-prose px-5 sm:px-8 space-y-7 text-foreground/90 leading-relaxed">
         <p>
           Lo que arrancó como una obsesión personal con instrumentos vintage terminó siendo un trabajo.
-          Empezamos comprando y vendiendo entre amigos hace más de una década, hasta que el flujo creció lo
-          suficiente como para abrir un taller chico en Montevideo donde recibir guitarras, repararlas y armar
-          un catálogo curado.
+          Empezamos comprando y vendiendo entre amigos hace más de una década, y con el tiempo se convirtió
+          en una selección chica pero cuidada de guitarras usadas.
         </p>
 
         <p>
-          No somos una tienda en el sentido tradicional. No tenemos vidriera, no tenemos catálogo masivo, no
-          tenemos carrito de compras. Compramos pocas guitarras al mes — sólo las que pasarían nuestro propio
-          filtro — y las vendemos a gente que valora lo mismo que nosotros: madera, hardware original, historia.
+          No somos una tienda en el sentido tradicional. No hay local, no hay vidriera, no hay catálogo
+          masivo, no hay carrito de compras. Compramos pocas guitarras al mes — solo las que pasarían nuestro
+          propio filtro — y las vendemos a gente que valora lo mismo que nosotros: madera, hardware original,
+          historia.
         </p>
       </div>
 
@@ -60,8 +60,8 @@ export default function AboutPage() {
         <div className="grid grid-cols-12 gap-3 md:gap-4">
           <div className="col-span-7 relative aspect-[4/3] overflow-hidden rounded-md bg-secondary">
             <Image
-              src="/decor/playing-dark.webp"
-              alt="Tocando una guitarra acústica"
+              src="/decor/about-martin.webp"
+              alt="Interior de una Martin D-28 con etiqueta original"
               fill
               sizes="(min-width: 1024px) 700px, 60vw"
               className="object-cover"
@@ -70,8 +70,8 @@ export default function AboutPage() {
           <div className="col-span-5 flex flex-col gap-3 md:gap-4">
             <div className="relative aspect-square overflow-hidden rounded-md bg-secondary">
               <Image
-                src="/decor/lespaul-playing.webp"
-                alt="Detalle de Les Paul en mano"
+                src="/decor/about-amps.webp"
+                alt="Cabezales de amplificadores Marshall y Fender vintage"
                 fill
                 sizes="(min-width: 1024px) 400px, 40vw"
                 className="object-cover"
@@ -79,8 +79,8 @@ export default function AboutPage() {
             </div>
             <div className="relative aspect-[4/3] overflow-hidden rounded-md bg-secondary">
               <Image
-                src="/decor/classical-hands.webp"
-                alt="Manos sobre el diapasón de una clásica"
+                src="/decor/about-acoustic.webp"
+                alt="Detalle del cuerpo de una acústica vintage"
                 fill
                 sizes="(min-width: 1024px) 400px, 40vw"
                 className="object-cover"
@@ -99,18 +99,18 @@ export default function AboutPage() {
 
         <p>
           Si tenés una guitarra para vender o estás buscando algo específico que no aparece en el catálogo,
-          escribinos. Mucho de lo bueno entra y sale del taller sin pasar por la web.
+          escribinos. Mucho de lo bueno se mueve sin pasar por la web.
         </p>
       </div>
 
       <Reveal className="mt-20 md:mt-28 max-w-5xl mx-auto px-5 sm:px-8">
         <div className="grid md:grid-cols-2 gap-10 md:gap-12 items-start">
           <div>
-            <p className="text-xs uppercase tracking-[0.3em] text-accent">Visitanos</p>
-            <h2 className="mt-4 font-serif text-3xl tracking-tight">Por agenda previa.</h2>
+            <p className="mono-meta text-accent">Coordinar encuentro</p>
+            <h2 className="mt-4 font-serif text-3xl tracking-tight">Todo por WhatsApp.</h2>
             <p className="mt-5 text-muted-foreground leading-relaxed">
-              El taller no tiene horario fijo de atención al público. Coordinamos visitas por WhatsApp para que
-              estemos disponibles, podamos preparar la guitarra que querés ver y dedicarte el tiempo que merece.
+              No tenemos local abierto al público. Coordinamos punto de encuentro en Montevideo por WhatsApp
+              para que puedas probar la guitarra que te interesa con tiempo y sin apuro.
             </p>
             <p className="mt-3 inline-flex items-center gap-2 text-muted-foreground">
               <MapPin className="size-4" />
@@ -119,12 +119,12 @@ export default function AboutPage() {
             <div className="mt-8 flex flex-wrap gap-3">
               <Button asChild variant="accent">
                 <a
-                  href={whatsappLink("Hola! Quería coordinar una visita al taller.")}
+                  href={whatsappLink("Hola! Quería coordinar un encuentro para ver una guitarra.")}
                   target="_blank"
                   rel="noopener noreferrer"
                 >
                   <MessageCircle className="size-4" />
-                  Coordinar visita
+                  Coordinar encuentro
                 </a>
               </Button>
               <Button asChild variant="outline">
@@ -138,7 +138,7 @@ export default function AboutPage() {
           <div className="aspect-[4/3] w-full overflow-hidden rounded-md border border-border bg-secondary">
             <iframe
               src={mapEmbedSrc}
-              title="Ubicación del taller en Google Maps"
+              title="Ubicación en Google Maps"
               loading="lazy"
               referrerPolicy="no-referrer-when-downgrade"
               className="w-full h-full"

@@ -5,10 +5,11 @@ import { redirect } from "next/navigation";
 import { createServerSupabase } from "@/lib/supabase/server";
 import { STORAGE_BUCKET } from "@/lib/supabase/storage";
 import { MAX_UPLOAD_BYTES, processGuitarImage } from "@/lib/admin/image-process";
-import type { GuitarSpecs, GuitarStatus, GuitarType } from "@/lib/types";
+import type { GuitarSpecs, GuitarStatus, GuitarType, ProductCategory } from "@/lib/types";
 
 const TYPES: GuitarType[] = ["electric", "acoustic", "classical", "bass"];
 const STATUSES: GuitarStatus[] = ["available", "reserved", "sold"];
+const CATEGORIES: ProductCategory[] = ["guitar", "amp", "accessory"];
 
 function slugify(text: string) {
   return text
@@ -32,7 +33,8 @@ type GuitarFields = {
   brand: string;
   model: string;
   year: number | null;
-  type: GuitarType;
+  category: ProductCategory;
+  type: GuitarType | null;
   price_usd: number | null;
   price_uyu: number | null;
   discount_percent: number | null;
@@ -49,7 +51,9 @@ function readFields(formData: FormData): GuitarFields | { error: string } {
   const model = String(formData.get("model") ?? "").trim();
   const yearStr = String(formData.get("year") ?? "").trim();
   const yearUnknown = formData.get("year_unknown") === "on";
-  const type = String(formData.get("type") ?? "") as GuitarType;
+  const categoryRaw = String(formData.get("category") ?? "guitar") as ProductCategory;
+  const category: ProductCategory = CATEGORIES.includes(categoryRaw) ? categoryRaw : "guitar";
+  const typeRaw = String(formData.get("type") ?? "").trim();
   const priceUsdStr = String(formData.get("price_usd") ?? "").trim();
   const priceUyuStr = String(formData.get("price_uyu") ?? "").trim();
   const discountStr = String(formData.get("discount_percent") ?? "").trim();
@@ -70,7 +74,11 @@ function readFields(formData: FormData): GuitarFields | { error: string } {
     year = parsed;
   }
 
-  if (!TYPES.includes(type)) return { error: "Tipo inválido." };
+  let type: GuitarType | null = null;
+  if (category === "guitar") {
+    if (!TYPES.includes(typeRaw as GuitarType)) return { error: "Tipo inválido." };
+    type = typeRaw as GuitarType;
+  }
 
   let price_usd: number | null = null;
   if (priceUsdStr) {
@@ -84,8 +92,10 @@ function readFields(formData: FormData): GuitarFields | { error: string } {
     if (!Number.isFinite(parsed) || parsed < 0) return { error: "Precio UYU inválido." };
     price_uyu = parsed;
   }
-  if (price_usd === null && price_uyu === null)
-    return { error: "Cargá un precio (USD o UYU)." };
+  if (price_uyu === null) {
+    // UYU es lo que se muestra. Si queda vacio, en el sitio aparece "Consultar".
+    // Lo permitimos igual (algunas piezas pueden ir a consultar precio).
+  }
 
   let discount_percent: number | null = null;
   if (discountStr) {
@@ -117,6 +127,7 @@ function readFields(formData: FormData): GuitarFields | { error: string } {
     brand,
     model,
     year,
+    category,
     type,
     price_usd,
     price_uyu,
@@ -384,7 +395,7 @@ export async function duplicateGuitarAction(id: string): Promise<void> {
   const { data: src, error: srcErr } = await supabase
     .from("guitars")
     .select(
-      "brand, model, year, type, price_usd, price_uyu, discount_percent, status, short_description, long_description, specs, slug",
+      "brand, model, year, category, type, price_usd, price_uyu, discount_percent, status, short_description, long_description, specs, slug",
     )
     .eq("id", id)
     .single();
@@ -401,6 +412,7 @@ export async function duplicateGuitarAction(id: string): Promise<void> {
       brand: src.brand,
       model: src.model,
       year: src.year,
+      category: src.category,
       type: src.type,
       price_usd: src.price_usd,
       price_uyu: src.price_uyu,

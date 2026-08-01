@@ -18,43 +18,30 @@ export function applyDiscount(price: number | null | undefined, percent: number 
 }
 
 /**
- * Devuelve el precio listo para mostrar en una sola línea.
- * Si están cargados los dos, UYU va primero (es la moneda principal) y
- * USD aparece como referencia secundaria. Si no hay ninguno, "Consultar".
+ * Precio para mostrar en el sitio. Solo UYU es visible al público — USD queda
+ * en la DB y en los helpers `formatUsd`/`applyDiscount` para uso interno.
  */
 export function formatPrice(opts: {
   usd?: number | null;
   uyu?: number | null;
 }): string {
-  const parts: string[] = [];
-  if (typeof opts.uyu === "number") parts.push(formatUyu(opts.uyu));
-  if (typeof opts.usd === "number") parts.push(formatUsd(opts.usd));
-  return parts.length ? parts.join(" · ") : "Consultar";
+  if (typeof opts.uyu === "number") return formatUyu(opts.uyu);
+  return "Consultar";
 }
 
-/**
- * Devuelve el precio "principal" (el que se muestra en el catálogo).
- * Prioriza UYU si está cargado; si no, USD; si no hay nada, "Consultar".
- */
+/** Alias del precio principal — mantengo la firma para no romper call sites. */
 export function formatPrimaryPrice(opts: {
   usd?: number | null;
   uyu?: number | null;
 }): string {
-  if (typeof opts.uyu === "number") return formatUyu(opts.uyu);
-  if (typeof opts.usd === "number") return formatUsd(opts.usd);
-  return "Consultar";
+  return formatPrice(opts);
 }
 
-/**
- * Devuelve el precio secundario (el otro), o null si no hay dos cargados.
- */
-export function formatSecondaryPrice(opts: {
+/** No hay precio secundario visible (todo es UYU). */
+export function formatSecondaryPrice(_opts: {
   usd?: number | null;
   uyu?: number | null;
 }): string | null {
-  if (typeof opts.uyu === "number" && typeof opts.usd === "number") {
-    return formatUsd(opts.usd);
-  }
   return null;
 }
 
@@ -65,8 +52,19 @@ const GUITAR_TYPE_LABELS: Record<string, string> = {
   bass: "Bajo",
 };
 
-export function guitarTypeLabel(type: string) {
+export function guitarTypeLabel(type: string | null | undefined) {
+  if (!type) return "";
   return GUITAR_TYPE_LABELS[type] ?? type;
+}
+
+const CATEGORY_LABELS: Record<string, string> = {
+  guitar: "Guitarra",
+  amp: "Amplificador",
+  accessory: "Accesorio",
+};
+
+export function categoryLabel(category: string) {
+  return CATEGORY_LABELS[category] ?? category;
 }
 
 const STATUS_LABELS: Record<string, string> = {
@@ -78,3 +76,4 @@ const STATUS_LABELS: Record<string, string> = {
 export function statusLabel(status: string) {
   return STATUS_LABELS[status] ?? status;
 }
+

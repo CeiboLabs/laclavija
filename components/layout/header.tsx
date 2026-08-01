@@ -1,6 +1,7 @@
 "use client";
 
 import * as React from "react";
+import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Menu } from "lucide-react";
@@ -14,35 +15,21 @@ import { CommandPalette } from "@/components/layout/command-palette";
 export function Header() {
   const pathname = usePathname();
   const [scrolled, setScrolled] = React.useState(false);
-  const [hidden, setHidden] = React.useState(false);
   const [open, setOpen] = React.useState(false);
 
   React.useEffect(() => {
-    let lastY = window.scrollY;
-    const onScroll = () => {
-      const y = window.scrollY;
-      setScrolled(y > 8);
-      // Solo escondemos despues de pasar el header y al hacer scroll-down con cierto delta.
-      const delta = y - lastY;
-      if (y > 80 && delta > 4) setHidden(true);
-      else if (delta < -4) setHidden(false);
-      lastY = y;
-    };
+    const onScroll = () => setScrolled(window.scrollY > 8);
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  // Si el menu mobile esta abierto, no escondemos.
-  const shouldHide = hidden && !open;
-
   return (
     <header
       className={cn(
-        "sticky top-0 z-40 w-full transition-[transform,background-color,border-color] duration-300 ease-out will-change-transform",
-        shouldHide && "-translate-y-full",
+        "sticky top-0 z-40 w-full transition-[background-color,border-color] duration-300 ease-out",
         scrolled
-          ? "bg-background/80 backdrop-blur supports-[backdrop-filter]:bg-background/60 border-b border-border"
+          ? "bg-background/90 backdrop-blur supports-[backdrop-filter]:bg-background/70 border-b border-border"
           : "bg-transparent",
       )}
     >
@@ -50,12 +37,27 @@ export function Header() {
         <Link
           href="/"
           aria-label="La Clavija — Home"
-          className="transition-colors hover:text-accent"
+          className="group flex items-center gap-2.5 transition-opacity hover:opacity-90"
         >
-          <Wordmark size="md" />
+          <span className="relative inline-block size-9 shrink-0 rounded-full overflow-hidden ring-1 ring-border">
+            <Image
+              src="/brand/la-clavija-logo.png"
+              alt=""
+              fill
+              sizes="36px"
+              className="object-cover"
+              priority
+            />
+          </span>
+          <span className="hidden sm:flex flex-col leading-none">
+            <Wordmark size="sm" />
+            <span className="mono-meta text-[0.55rem] mt-1 opacity-70">
+              Montevideo, Uruguay
+            </span>
+          </span>
         </Link>
 
-        <nav className="hidden md:flex items-center gap-8">
+        <nav className="hidden md:flex items-center gap-6">
           {NAV_LINKS.map((link) => {
             const active = pathname === link.href || pathname.startsWith(`${link.href}/`);
             return (
@@ -64,7 +66,7 @@ export function Header() {
                 href={link.href}
                 data-active={active}
                 className={cn(
-                  "nav-link-underline text-sm uppercase tracking-widest transition-colors",
+                  "nav-link-underline text-xs uppercase tracking-[0.22em] transition-colors",
                   active ? "text-accent" : "text-muted-foreground hover:text-foreground",
                 )}
               >
@@ -84,8 +86,22 @@ export function Header() {
             </SheetTrigger>
             <SheetContent side="right" className="w-72">
               <SheetTitle asChild>
-                <span>
-                  <Wordmark size="lg" stacked />
+                <span className="flex items-center gap-3">
+                  <span className="relative inline-block size-12 shrink-0 rounded-full overflow-hidden ring-1 ring-border">
+                    <Image
+                      src="/brand/la-clavija-logo.png"
+                      alt=""
+                      fill
+                      sizes="48px"
+                      className="object-cover"
+                    />
+                  </span>
+                  <span className="flex flex-col leading-none">
+                    <Wordmark size="lg" />
+                    <span className="mono-meta text-[0.6rem] mt-2 opacity-70">
+                      Montevideo, Uruguay
+                    </span>
+                  </span>
                 </span>
               </SheetTitle>
               <nav className="mt-10 flex flex-col gap-1">
@@ -97,7 +113,7 @@ export function Header() {
                       href={link.href}
                       onClick={() => setOpen(false)}
                       className={cn(
-                        "py-3 text-base uppercase tracking-widest border-b border-border/60 transition-colors",
+                        "py-3 text-base uppercase tracking-widest border-b border-dashed border-border/60 transition-colors",
                         active ? "text-accent" : "text-foreground/80 hover:text-foreground",
                       )}
                     >

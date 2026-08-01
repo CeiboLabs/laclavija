@@ -1,10 +1,10 @@
 import Image from "next/image";
 import Link from "next/link";
-import { Badge } from "@/components/ui/badge";
+import { Stamp } from "@/components/decor/stamp";
 import {
   applyDiscount,
+  categoryLabel,
   formatPrimaryPrice,
-  formatSecondaryPrice,
   guitarTypeLabel,
 } from "@/lib/format";
 import { cn } from "@/lib/utils";
@@ -39,16 +39,21 @@ export function GuitarCard({
 
   const original = { usd: guitar.price_usd, uyu: guitar.price_uyu };
   const discounted = hasDiscount
-    ? { usd: applyDiscount(guitar.price_usd, discount), uyu: applyDiscount(guitar.price_uyu, discount) }
+    ? {
+        usd: applyDiscount(guitar.price_usd, discount),
+        uyu: applyDiscount(guitar.price_uyu, discount),
+      }
     : original;
 
   const primaryPrice = formatPrimaryPrice(discounted);
-  const secondaryPrice = formatSecondaryPrice(discounted);
   const originalPrimary = hasDiscount ? formatPrimaryPrice(original) : null;
+
+  const typeLabel =
+    guitar.category === "guitar" ? guitarTypeLabel(guitar.type) : categoryLabel(guitar.category);
 
   return (
     <Link href={`/catalogo/${guitar.slug}`} className="group block card-lift">
-      <div className="relative aspect-[4/5] overflow-hidden bg-secondary rounded-sm">
+      <div className="relative aspect-[4/5] overflow-hidden bg-secondary rounded-sm ring-1 ring-border/60">
         {cover ? (
           <Image
             src={cover}
@@ -64,40 +69,50 @@ export function GuitarCard({
         ) : (
           <div className="absolute inset-0 bg-secondary" />
         )}
-        {(isSold || isReserved) && (
-          <div className="absolute left-3 top-3">
-            <Badge variant={isSold ? "sold" : "reserved"}>{isSold ? "Vendida" : "Reservada"}</Badge>
-          </div>
-        )}
-        <div className="absolute right-3 top-3 flex flex-col items-end gap-1.5">
-          {hasDiscount && (
-            <Badge variant="accent" className="font-bold tabular-nums">
+
+        {/* Solo un sello: prioridad estado > descuento > nuevo */}
+        <div className="absolute right-3 top-3">
+          {isSold ? (
+            <Stamp variant="sold" size="md">
+              Vendida
+            </Stamp>
+          ) : isReserved ? (
+            <Stamp variant="reserved" size="md">
+              Reservada
+            </Stamp>
+          ) : hasDiscount ? (
+            <Stamp variant="new" size="sm">
               −{discount}%
-            </Badge>
-          )}
-          {isNew && (
-            <Badge variant="outline" className="bg-background/80 backdrop-blur">
+            </Stamp>
+          ) : isNew ? (
+            <Stamp variant="new" size="sm">
               Recién llegada
-            </Badge>
-          )}
+            </Stamp>
+          ) : null}
         </div>
       </div>
+
       <div className="mt-4">
-        <p className="text-xs uppercase tracking-widest text-muted-foreground">
-          {guitar.year ? `${guitarTypeLabel(guitar.type)} · ${guitar.year}` : guitarTypeLabel(guitar.type)}
+        <p className="mono-meta text-[0.6rem]">
+          {typeLabel}
+          {guitar.year ? ` · ${guitar.year}` : ""}
         </p>
         <h3 className="mt-1.5 font-serif text-xl leading-tight tracking-tight group-hover:text-accent transition-colors">
           {guitar.brand} <span className="text-muted-foreground">{guitar.model}</span>
         </h3>
-        <div className="mt-2 flex items-baseline gap-2 flex-wrap">
-          <p className={cn("text-sm font-medium tabular-nums", hasDiscount && "text-accent")}>
+        <div className="mt-2 flex items-baseline gap-2 flex-wrap font-mono">
+          <p
+            className={cn(
+              "text-sm tabular-nums",
+              hasDiscount ? "text-accent font-medium" : "text-foreground",
+            )}
+          >
             {primaryPrice}
           </p>
           {originalPrimary ? (
-            <p className="text-xs text-muted-foreground line-through tabular-nums">{originalPrimary}</p>
-          ) : null}
-          {secondaryPrice && !originalPrimary ? (
-            <p className="text-xs text-muted-foreground tabular-nums">{secondaryPrice}</p>
+            <p className="text-xs text-muted-foreground line-through tabular-nums">
+              {originalPrimary}
+            </p>
           ) : null}
         </div>
       </div>

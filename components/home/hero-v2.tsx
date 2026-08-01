@@ -25,7 +25,11 @@ const maskLineVariants = {
   visible: { y: "0%", transition: { duration: 1.1, ease: EASE } },
 } as const;
 
-export function Hero() {
+/**
+ * Hero de la home con banner de fondo (home-hero.webp) + tipografía en primer plano.
+ * Diseño clásico foto-full + overlay de texto, sin depender del catálogo.
+ */
+export function HeroV2() {
   return (
     <section className="relative -mt-16 h-dvh min-h-[640px] w-full overflow-hidden">
       <motion.div
@@ -47,7 +51,7 @@ export function Hero() {
       {/* Top vignette para legibilidad del header */}
       <div className="absolute inset-x-0 top-0 h-40 bg-gradient-to-b from-background/70 to-transparent" />
       {/* Bottom gradient para fundir con el resto del sitio */}
-      <div className="absolute inset-0 bg-gradient-to-t from-background via-background/75 to-background/0" />
+      <div className="absolute inset-0 bg-gradient-to-t from-background via-background/70 to-background/0" />
 
       <motion.div
         initial="hidden"
@@ -55,11 +59,8 @@ export function Hero() {
         variants={containerVariants}
         className="relative h-full w-full mx-auto max-w-(--container-2xl) flex flex-col justify-end px-5 sm:px-8 pb-16 md:pb-24"
       >
-        <motion.p
-          variants={itemVariants}
-          className="text-xs uppercase tracking-[0.3em] text-accent"
-        >
-          Selección de la casa
+        <motion.p variants={itemVariants} className="mono-meta text-accent">
+          Est. Pocitos, Montevideo
         </motion.p>
         <motion.h1
           variants={itemVariants}

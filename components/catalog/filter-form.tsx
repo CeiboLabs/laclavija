@@ -9,6 +9,12 @@ import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { cn } from "@/lib/utils";
 
+const CATEGORIES = [
+  { value: "guitar", label: "Guitarras" },
+  { value: "amp", label: "Amplificadores" },
+  { value: "accessory", label: "Accesorios" },
+] as const;
+
 const TYPES = [
   { value: "electric", label: "Eléctrica" },
   { value: "acoustic", label: "Acústica" },
@@ -64,9 +70,20 @@ export function FilterForm({ brands, onApply }: { brands: string[]; onApply?: ()
     onApply?.();
   }
 
+  const activeCategory = params.get("categoria");
   const activeType = params.get("type");
   const activeStatus = params.get("status") ?? "available";
   const activeBrand = params.get("brand");
+
+  function setCategory(value: string | null) {
+    const next = new URLSearchParams(params.toString());
+    if (value === null || value === "" || value === ALL) next.delete("categoria");
+    else next.set("categoria", value);
+    // Cambiar de categoria limpia el filtro de tipo (solo aplica a guitarras).
+    if (value !== "guitar") next.delete("type");
+    const qs = next.toString();
+    router.push(qs ? `${pathname}?${qs}` : pathname, { scroll: false });
+  }
 
   return (
     <form
@@ -77,28 +94,54 @@ export function FilterForm({ brands, onApply }: { brands: string[]; onApply?: ()
       }}
     >
       <div>
-        <Label className="text-xs uppercase tracking-widest text-muted-foreground">Tipo</Label>
-        <div className="mt-3 grid grid-cols-2 gap-2">
-          {TYPES.map((t) => {
-            const active = activeType === t.value;
+        <Label className="text-xs uppercase tracking-widest text-muted-foreground">Categoría</Label>
+        <div className="mt-3 grid grid-cols-1 gap-2">
+          {CATEGORIES.map((c) => {
+            const active = activeCategory === c.value;
             return (
               <button
-                key={t.value}
+                key={c.value}
                 type="button"
-                onClick={() => pushParam("type", active ? null : t.value)}
+                onClick={() => setCategory(active ? null : c.value)}
                 className={cn(
-                  "rounded-md border px-3 py-2 text-sm text-left transition-colors",
+                  "rounded-md border px-3 py-2 text-sm text-center transition-colors",
                   active
                     ? "border-accent bg-accent/10 text-foreground"
                     : "border-border text-muted-foreground hover:text-foreground hover:border-border",
                 )}
               >
-                {t.label}
+                {c.label}
               </button>
             );
           })}
         </div>
       </div>
+
+      {activeCategory !== "amp" && activeCategory !== "accessory" && (
+        <div>
+          <Label className="mono-meta">Tipo</Label>
+          <div className="mt-3 grid grid-cols-2 gap-2">
+            {TYPES.map((t) => {
+              const active = activeType === t.value;
+              return (
+                <button
+                  key={t.value}
+                  type="button"
+                  onClick={() => pushParam("type", active ? null : t.value)}
+                  className={cn(
+                    "rounded-md border px-3 py-2 text-sm text-left transition-colors",
+                    active
+                      ? "border-accent bg-accent/10 text-foreground"
+                      : "border-border text-muted-foreground hover:text-foreground hover:border-border",
+                  )}
+                >
+                  {t.label}
+                </button>
+              );
+            })}
+          </div>
+        </div>
+      )}
 
       <div>
         <Label className="text-xs uppercase tracking-widest text-muted-foreground">Marca</Label>
@@ -194,8 +237,8 @@ export function FilterForm({ brands, onApply }: { brands: string[]; onApply?: ()
         </div>
       </div>
 
-      <div className="flex flex-col gap-2 pt-4 border-t border-border">
-        <Button type="button" variant="ghost" size="sm" onClick={clearAll} className="justify-start gap-2">
+      <div className="flex flex-col gap-2 pt-4 border-t border-dashed border-border">
+        <Button type="button" variant="ghost" size="sm" onClick={clearAll} className="justify-start gap-2 mono-meta">
           <X className="size-3" />
           Limpiar filtros
         </Button>

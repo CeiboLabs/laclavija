@@ -1,6 +1,7 @@
 import type { CatalogFilters, CatalogSort } from "./queries";
-import type { GuitarStatus, GuitarType } from "./types";
+import type { GuitarStatus, GuitarType, ProductCategory } from "./types";
 
+const CATEGORIES = ["guitar", "amp", "accessory"] as const satisfies readonly ProductCategory[];
 const TYPES = ["electric", "acoustic", "classical", "bass"] as const satisfies readonly GuitarType[];
 const STATUSES = ["available", "reserved", "sold"] as const satisfies readonly GuitarStatus[];
 const SORTS = ["recent", "price-asc", "price-desc", "year-desc", "year-asc"] as const satisfies readonly CatalogSort[];
@@ -27,6 +28,7 @@ function parseString(value: string | string[] | undefined, maxLength = 80) {
 
 export function parseFilters(searchParams: Record<string, string | string[] | undefined>): CatalogFilters {
   return {
+    category: parseEnum(searchParams.categoria, CATEGORIES),
     type: parseEnum(searchParams.type, TYPES),
     brand: parseString(searchParams.brand),
     minPrice: parseInt32(searchParams.minPrice),
@@ -43,6 +45,7 @@ export function parseFilters(searchParams: Record<string, string | string[] | un
  *  `sort` no cuenta (siempre tiene valor) y `status="available"` (default) tampoco. */
 export function countActiveFilters(filters: CatalogFilters): number {
   let count = 0;
+  if (filters.category) count++;
   if (filters.type) count++;
   if (filters.brand) count++;
   if (filters.minPrice !== undefined) count++;
@@ -55,6 +58,7 @@ export function countActiveFilters(filters: CatalogFilters): number {
 }
 
 export const FILTER_LABELS: Record<Exclude<keyof CatalogFilters, "sort">, string> = {
+  category: "Categoría",
   type: "Tipo",
   brand: "Marca",
   minPrice: "Desde",

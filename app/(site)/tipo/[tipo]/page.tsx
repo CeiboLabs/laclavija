@@ -22,10 +22,10 @@ const TYPES: Record<TypeSlug, TypeMeta> = {
     type: "electric",
     h1: "Guitarras eléctricas",
     intro:
-      "Stratocaster, Telecaster, Les Paul, SG y más. Eléctricas seleccionadas en Montevideo, revisadas en taller antes de salir al catálogo.",
+      "Stratocaster, Telecaster, Les Paul, SG y más. Eléctricas seleccionadas en Montevideo, revisadas personalmente antes de salir al catálogo.",
     metaTitle: "Guitarras eléctricas en Montevideo",
     metaDescription:
-      "Catálogo de guitarras eléctricas en Montevideo, Uruguay. Strat, Tele, Les Paul y más, revisadas en taller. Compra, venta y permuta.",
+      "Catálogo de guitarras eléctricas en Montevideo, Uruguay. Strat, Tele, Les Paul y más, revisadas personalmente. Compra, venta y permuta.",
     keywords: [
       "guitarras electricas Montevideo",
       "guitarras electricas Uruguay",
@@ -41,7 +41,7 @@ const TYPES: Record<TypeSlug, TypeMeta> = {
       "Acústicas de cuerda metal en stock. Dreadnought, OM, parlor y más. Revisadas y puestas a punto antes de entrar al catálogo.",
     metaTitle: "Guitarras acústicas en Montevideo",
     metaDescription:
-      "Catálogo de guitarras acústicas en Montevideo, Uruguay. Dreadnought, parlor, OM y más, revisadas en taller. Compra, venta y permuta.",
+      "Catálogo de guitarras acústicas en Montevideo, Uruguay. Dreadnought, parlor, OM y más, revisadas personalmente. Compra, venta y permuta.",
     keywords: [
       "guitarras acusticas Montevideo",
       "guitarras acusticas Uruguay",
@@ -56,7 +56,7 @@ const TYPES: Record<TypeSlug, TypeMeta> = {
       "Clásicas de cuerda nylon — concierto, estudio, flamencas. Cada una revisada antes de entrar al catálogo.",
     metaTitle: "Guitarras clásicas en Montevideo",
     metaDescription:
-      "Catálogo de guitarras clásicas y de concierto en Montevideo, Uruguay. Cuerda nylon, revisadas en taller.",
+      "Catálogo de guitarras clásicas y de concierto en Montevideo, Uruguay. Cuerda nylon, revisadas personalmente.",
     keywords: [
       "guitarras clasicas Montevideo",
       "guitarras clasicas Uruguay",
@@ -71,7 +71,7 @@ const TYPES: Record<TypeSlug, TypeMeta> = {
       "Bajos eléctricos en stock. Precision, Jazz, modernos y vintage. Revisados y listos para tocar.",
     metaTitle: "Bajos eléctricos en Montevideo",
     metaDescription:
-      "Catálogo de bajos eléctricos en Montevideo, Uruguay. Precision, Jazz Bass y más, revisados en taller. Compra, venta y permuta.",
+      "Catálogo de bajos eléctricos en Montevideo, Uruguay. Precision, Jazz Bass y más, revisados personalmente. Compra, venta y permuta.",
     keywords: [
       "bajos Montevideo",
       "bajos Uruguay",

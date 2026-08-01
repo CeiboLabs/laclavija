@@ -1,5 +1,5 @@
 import { BUSINESS, SITE_URL } from "./constants";
-import { applyDiscount, guitarTypeLabel } from "./format";
+import { applyDiscount, categoryLabel, guitarTypeLabel } from "./format";
 import type { Guitar } from "./types";
 
 /** @id estable del negocio, referenciable desde otros nodos (offers.seller, etc). */
@@ -84,18 +84,11 @@ export function productSchema(guitar: Guitar) {
     : `${guitar.brand} ${guitar.model}`;
   const url = `${SITE_URL}/catalogo/${guitar.slug}`;
 
-  // Google quiere una sola moneda por Offer. UYU es la principal; si no, USD.
-  // Si hay descuento, el price es el final (post-descuento) — eso es lo que
-  // realmente paga el cliente y lo que Google muestra en rich results.
+  // Solo UYU en el offer publico. Aunque en DB pueda haber price_usd, no lo
+  // exponemos en structured data para mantener consistencia con lo que se ve.
   const discount = guitar.discount_percent;
   const finalUyu = applyDiscount(guitar.price_uyu, discount);
-  const finalUsd = applyDiscount(guitar.price_usd, discount);
-  const offer =
-    typeof finalUyu === "number"
-      ? { price: finalUyu, currency: "UYU" }
-      : typeof finalUsd === "number"
-        ? { price: finalUsd, currency: "USD" }
-        : null;
+  const offer = typeof finalUyu === "number" ? { price: finalUyu, currency: "UYU" } : null;
 
   const schema: Record<string, unknown> = {
     "@context": "https://schema.org",
@@ -104,7 +97,7 @@ export function productSchema(guitar: Guitar) {
     description: guitar.short_description || name,
     image: guitar.images,
     sku: guitar.slug,
-    category: guitarTypeLabel(guitar.type),
+    category: guitar.category === "guitar" ? guitarTypeLabel(guitar.type) : categoryLabel(guitar.category),
     brand: { "@type": "Brand", name: guitar.brand },
     itemCondition: "https://schema.org/UsedCondition",
     url,

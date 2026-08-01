@@ -44,12 +44,18 @@ export default async function CatalogPage({ searchParams }: { searchParams: Prom
       />
       <section className="mx-auto max-w-(--container-2xl) px-5 sm:px-8 pt-16 md:pt-24 pb-24">
         <div className="mb-12">
-          <p className="text-xs uppercase tracking-[0.3em] text-accent">Catálogo</p>
-          <h1 className="mt-4 font-serif text-4xl md:text-6xl tracking-tight">
-            Guitarras en vidriera.
+          <div className="flex items-center justify-between gap-6 mb-6">
+            <p className="mono-meta text-accent">Catálogo</p>
+            <p className="mono-meta hidden sm:block">
+              {guitars.length} {guitars.length === 1 ? "instrumento" : "instrumentos"}
+            </p>
+          </div>
+          <h1 className="font-serif text-4xl md:text-6xl tracking-tight">
+            Guitarras y amps
+            <span className="text-muted-foreground italic font-light"> disponibles.</span>
           </h1>
           <p className="mt-4 text-muted-foreground max-w-xl">
-            Cada instrumento fue revisado en taller. Hacé click para ver fotos, especificaciones e historia.
+            Cada pieza revisada personalmente antes de subir al catálogo. Hacé click para fotos, specs e historia.
           </p>
         </div>
 

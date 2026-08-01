@@ -13,7 +13,7 @@ import { JsonLd } from "@/components/seo/json-ld";
 import { getAllSlugs, getGuitarBySlug, getSimilarGuitars } from "@/lib/queries";
 import { breadcrumbSchema, productSchema } from "@/lib/seo";
 import { brandToSlug } from "@/lib/brand-slug";
-import { applyDiscount, formatPrice, formatPrimaryPrice, formatSecondaryPrice, guitarTypeLabel, statusLabel } from "@/lib/format";
+import { applyDiscount, categoryLabel, formatPrice, formatPrimaryPrice, guitarTypeLabel, statusLabel } from "@/lib/format";
 
 export async function generateStaticParams() {
   return await getAllSlugs();
@@ -79,7 +79,10 @@ export default async function GuitarDetailPage({ params }: { params: Promise<{ s
 
           <div className="lg:sticky lg:top-24">
             <p className="text-xs uppercase tracking-[0.3em] text-accent">
-              {guitar.year ? `${guitarTypeLabel(guitar.type)} · ${guitar.year}` : guitarTypeLabel(guitar.type)}
+              {(() => {
+                const label = guitar.category === "guitar" ? guitarTypeLabel(guitar.type) : categoryLabel(guitar.category);
+                return guitar.year ? `${label} · ${guitar.year}` : label;
+              })()}
             </p>
             <h1 className="mt-4 font-serif text-4xl md:text-5xl tracking-tight leading-[1.05]">
               <Link
@@ -100,7 +103,6 @@ export default async function GuitarDetailPage({ params }: { params: Promise<{ s
                 ? { usd: applyDiscount(guitar.price_usd, discount), uyu: applyDiscount(guitar.price_uyu, discount) }
                 : { usd: guitar.price_usd, uyu: guitar.price_uyu };
               const primary = formatPrimaryPrice(discounted);
-              const secondary = formatSecondaryPrice(discounted);
               const originalPrimary = hasDiscount
                 ? formatPrimaryPrice({ usd: guitar.price_usd, uyu: guitar.price_uyu })
                 : null;
@@ -120,9 +122,6 @@ export default async function GuitarDetailPage({ params }: { params: Promise<{ s
                       <p className="mt-1 text-sm text-muted-foreground line-through tabular-nums">
                         antes {originalPrimary}
                       </p>
-                    ) : null}
-                    {secondary ? (
-                      <p className="mt-1 text-sm text-muted-foreground">aprox. {secondary}</p>
                     ) : null}
                   </div>
                   {!isAvailable ? (
@@ -166,7 +165,7 @@ export default async function GuitarDetailPage({ params }: { params: Promise<{ s
         </div>
 
         <div className="mt-20 md:mt-28">
-          <Similar guitars={similar} type={guitar.type} />
+          <Similar guitars={similar} type={guitar.type} category={guitar.category} />
         </div>
       </article>
 

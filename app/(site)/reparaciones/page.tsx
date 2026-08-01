@@ -116,7 +116,7 @@ export default function ReparacionesPage() {
       <section className="relative overflow-hidden">
         <div className="mx-auto max-w-(--container-2xl) px-5 sm:px-8 pt-16 md:pt-28 pb-16 md:pb-24 grid lg:grid-cols-12 gap-10 items-center">
           <div className="lg:col-span-7">
-            <p className="text-xs uppercase tracking-[0.3em] text-accent">Reparaciones</p>
+            <p className="mono-meta text-accent">Reparaciones</p>
             <h1 className="mt-5 font-serif text-5xl md:text-7xl tracking-tight leading-[1.02]">
               Devolvele la magia
               <br />
@@ -136,8 +136,8 @@ export default function ReparacionesPage() {
           <Reveal className="lg:col-span-5">
             <div className="relative aspect-[4/5] w-full overflow-hidden rounded-md bg-secondary">
               <Image
-                src="/decor/repair-frets.webp"
-                alt="Detalle del mástil y trastes de una guitarra"
+                src="/decor/repair-fretboard.webp"
+                alt="Detalle del mástil y trastes de una guitarra eléctrica"
                 fill
                 priority
                 sizes="(min-width: 1024px) 500px, 90vw"
@@ -150,11 +150,11 @@ export default function ReparacionesPage() {
 
       <section
         id="formulario"
-        className="mx-auto max-w-(--container-2xl) px-5 sm:px-8 py-24 md:py-32 border-t border-border scroll-mt-24"
+        className="mx-auto max-w-(--container-2xl) px-5 sm:px-8 py-24 md:py-32 border-t border-dashed border-border scroll-mt-24"
       >
         <div className="grid lg:grid-cols-12 gap-12">
           <div className="lg:col-span-5">
-            <p className="text-xs uppercase tracking-[0.3em] text-accent">Consultar</p>
+            <p className="mono-meta text-accent">Consultar</p>
             <h2 className="mt-4 font-serif text-4xl md:text-5xl tracking-tight">
               Contanos qué necesita.
             </h2>
@@ -171,10 +171,10 @@ export default function ReparacionesPage() {
 
       <section
         id="servicios"
-        className="mx-auto max-w-(--container-2xl) px-5 sm:px-8 py-24 md:py-32 border-t border-border scroll-mt-24"
+        className="mx-auto max-w-(--container-2xl) px-5 sm:px-8 py-24 md:py-32 border-t border-dashed border-border scroll-mt-24"
       >
         <div className="max-w-2xl mb-14 md:mb-20">
-          <p className="text-xs uppercase tracking-[0.3em] text-accent">Servicios</p>
+          <p className="mono-meta text-accent">Servicios</p>
           <h2 className="mt-4 font-serif text-4xl md:text-5xl tracking-tight">
             Lo que hacemos.
           </h2>
@@ -194,8 +194,8 @@ export default function ReparacionesPage() {
 
       <section className="relative w-full h-[40vh] min-h-[280px] overflow-hidden">
         <Image
-          src="/decor/repair-controls.webp"
-          alt="Detalle de controles de una guitarra eléctrica"
+          src="/decor/repair-amp.webp"
+          alt="Amplificador Vox valvular en penumbra"
           fill
           sizes="100vw"
           className="object-cover"
@@ -207,14 +207,14 @@ export default function ReparacionesPage() {
               &ldquo;Una guitarra bien seteada no se siente como una guitarra arreglada. Se siente como tu
               guitarra otra vez.&rdquo;
             </p>
-            <p className="mt-4 text-sm text-muted-foreground">— Del taller</p>
+            <p className="mt-4 text-sm text-muted-foreground">— La Clavija</p>
           </div>
         </div>
       </section>
 
       <section className="mx-auto max-w-(--container-2xl) px-5 sm:px-8 py-24 md:py-32 border-t border-border pb-32">
         <div className="max-w-2xl mb-14 md:mb-20">
-          <p className="text-xs uppercase tracking-[0.3em] text-accent">El proceso</p>
+          <p className="mono-meta text-accent">El proceso</p>
           <h2 className="mt-4 font-serif text-4xl md:text-5xl tracking-tight">
             Cómo trabajamos.
           </h2>

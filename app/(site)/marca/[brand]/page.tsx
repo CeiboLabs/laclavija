@@ -24,7 +24,7 @@ export async function generateMetadata({
   if (!brand) return { title: "Marca no encontrada" };
 
   const title = `Guitarras ${brand} en Montevideo`;
-  const description = `Guitarras ${brand} en stock en La Clavija. Compra, venta y permuta de ${brand} en Montevideo, Uruguay. Instrumentos seleccionados y revisados en taller.`;
+  const description = `Guitarras ${brand} en stock en La Clavija. Compra, venta y permuta de ${brand} en Montevideo, Uruguay. Instrumentos seleccionados y revisados personalmente.`;
 
   return {
     title,
@@ -87,7 +87,7 @@ export default async function BrandPage({
           </h1>
           <p className="mt-5 text-muted-foreground leading-relaxed">
             La selección de {brand} en stock en La Clavija. Compra, venta y permuta en
-            Montevideo, Uruguay. Cada instrumento fue revisado en taller —
+            Montevideo, Uruguay. Cada instrumento fue revisado personalmente —
             consultá por WhatsApp o coordiná visita.
           </p>
         </header>

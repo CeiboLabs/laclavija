@@ -15,7 +15,7 @@ const testimonials = [
   },
   {
     quote:
-      "Necesitaba permutar una eléctrica por una acústica de gama buena. Me ofrecieron tres opciones de su stock, las probé tranquilo en el taller, sin presión. Salimos con la Taylor.",
+      "Necesitaba permutar una eléctrica por una acústica de gama buena. Me ofrecieron tres opciones de su stock, las probé tranquilo, sin presión. Salimos con la Taylor.",
     name: "Federico Rivas",
     role: "Estudiante — Berklee",
   },

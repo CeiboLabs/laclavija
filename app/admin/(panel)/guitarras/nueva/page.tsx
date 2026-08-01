@@ -13,12 +13,12 @@ export default function NewGuitarPage() {
         <ChevronLeft className="size-3" />
         Volver
       </Link>
-      <p className="text-xs uppercase tracking-[0.3em] text-accent">Nueva guitarra</p>
+      <p className="text-xs uppercase tracking-[0.3em] text-accent">Nuevo producto</p>
       <h1 className="mt-3 font-serif text-4xl tracking-tight mb-2">Crear</h1>
       <p className="text-sm text-muted-foreground mb-10">
-        Datos básicos primero. Una vez creada vas a poder subir fotos.
+        Elegí la categoría y cargá los datos básicos. Una vez creado vas a poder subir fotos.
       </p>
-      <GuitarForm action={createGuitarAction} submitLabel="Crear guitarra" mode="create" />
+      <GuitarForm action={createGuitarAction} submitLabel="Crear" mode="create" />
     </div>
   );
 }

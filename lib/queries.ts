@@ -1,6 +1,6 @@
 import { createPublicSupabase } from "./supabase/public";
 import { publicImageUrl } from "./supabase/storage";
-import type { Guitar, GuitarSpecs, GuitarStatus, GuitarType } from "./types";
+import type { Guitar, GuitarSpecs, GuitarStatus, GuitarType, ProductCategory } from "./types";
 
 export type CatalogSort =
   | "recent"
@@ -10,6 +10,7 @@ export type CatalogSort =
   | "year-asc";
 
 export type CatalogFilters = {
+  category?: ProductCategory;
   type?: GuitarType;
   brand?: string;
   minPrice?: number;
@@ -27,7 +28,8 @@ type GuitarRow = {
   brand: string;
   model: string;
   year: number | null;
-  type: GuitarType;
+  category: ProductCategory;
+  type: GuitarType | null;
   price_usd: number | null;
   price_uyu: number | null;
   discount_percent: number | null;
@@ -50,6 +52,7 @@ function rowToGuitar(row: GuitarRow): Guitar {
     brand: row.brand,
     model: row.model,
     year: row.year,
+    category: row.category ?? "guitar",
     type: row.type,
     price_usd: row.price_usd,
     price_uyu: row.price_uyu,
@@ -65,10 +68,42 @@ function rowToGuitar(row: GuitarRow): Guitar {
 }
 
 const SELECT_GUITAR = `
-  id, slug, brand, model, year, type, price_usd, price_uyu, discount_percent, status, featured,
+  id, slug, brand, model, year, category, type, price_usd, price_uyu, discount_percent, status, featured,
   short_description, long_description, specs, created_at,
   guitar_images ( storage_path, position )
 `;
+
+/** Últimos productos ingresados (cualquier categoría). Se usa para el marquee del header. */
+export async function getLatestProducts(limit = 8): Promise<Guitar[]> {
+  const supabase = createPublicSupabase();
+  const { data, error } = await supabase
+    .from("guitars")
+    .select(SELECT_GUITAR)
+    .eq("status", "available")
+    .order("created_at", { ascending: false })
+    .limit(limit);
+  if (error) {
+    console.error("[getLatestProducts]", error.message);
+    return [];
+  }
+  return (data as unknown as GuitarRow[]).map(rowToGuitar);
+}
+
+/** Últimas vendidas — para el marquee del footer ("recién vendidas"). */
+export async function getRecentlySold(limit = 6): Promise<Guitar[]> {
+  const supabase = createPublicSupabase();
+  const { data, error } = await supabase
+    .from("guitars")
+    .select(SELECT_GUITAR)
+    .eq("status", "sold")
+    .order("created_at", { ascending: false })
+    .limit(limit);
+  if (error) {
+    console.error("[getRecentlySold]", error.message);
+    return [];
+  }
+  return (data as unknown as GuitarRow[]).map(rowToGuitar);
+}
 
 export async function getFeaturedGuitars(limit = 4): Promise<Guitar[]> {
   const supabase = createPublicSupabase();
@@ -90,6 +125,7 @@ export async function getCatalog(filters: CatalogFilters = {}): Promise<Guitar[]
   const supabase = createPublicSupabase();
   let q = supabase.from("guitars").select(SELECT_GUITAR);
 
+  if (filters.category) q = q.eq("category", filters.category);
   if (filters.type) q = q.eq("type", filters.type);
   if (filters.status) q = q.eq("status", filters.status);
   if (filters.brand) q = q.ilike("brand", filters.brand);
@@ -157,12 +193,14 @@ export async function getAllSlugs(): Promise<{ slug: string }[]> {
 
 export async function getSimilarGuitars(guitar: Guitar, limit = 3): Promise<Guitar[]> {
   const supabase = createPublicSupabase();
-  const { data, error } = await supabase
+  let q = supabase
     .from("guitars")
     .select(SELECT_GUITAR)
-    .eq("type", guitar.type)
+    .eq("category", guitar.category)
     .eq("status", "available")
-    .neq("id", guitar.id)
+    .neq("id", guitar.id);
+  if (guitar.category === "guitar" && guitar.type) q = q.eq("type", guitar.type);
+  const { data, error } = await q
     .order("created_at", { ascending: false })
     .limit(limit);
   if (error) {

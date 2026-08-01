@@ -1,6 +1,6 @@
 import { ImageResponse } from "next/og";
 import { getAllSlugs, getGuitarBySlug } from "@/lib/queries";
-import { formatPrimaryPrice, guitarTypeLabel, statusLabel } from "@/lib/format";
+import { categoryLabel, formatPrimaryPrice, guitarTypeLabel, statusLabel } from "@/lib/format";
 
 export const alt = "Guitarra en La Clavija";
 export const size = { width: 1200, height: 630 };
@@ -94,9 +94,10 @@ export default async function Image({
                 color: ACCENT,
               }}
             >
-              {guitar.year
-                ? `${guitarTypeLabel(guitar.type)} · ${guitar.year}`
-                : guitarTypeLabel(guitar.type)}
+              {(() => {
+                const label = guitar.category === "guitar" ? guitarTypeLabel(guitar.type) : categoryLabel(guitar.category);
+                return guitar.year ? `${label} · ${guitar.year}` : label;
+              })()}
             </div>
             <div style={{ fontSize: 68, lineHeight: 1.05, marginTop: 20, fontWeight: 700 }}>
               {name}
