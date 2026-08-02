@@ -22,7 +22,7 @@ export const metadata: Metadata = {
 };
 
 export default async function HomePage() {
-  const latest = await getLatestProducts(5);
+  const latest = await getLatestProducts(3);
 
   return (
     <>

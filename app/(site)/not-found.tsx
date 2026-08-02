@@ -8,7 +8,7 @@ export default function NotFound() {
     <section className="mx-auto max-w-(--container-2xl) px-5 sm:px-8 py-24 md:py-36 text-center">
       <div className="mx-auto inline-block overflow-hidden rounded-md ring-1 ring-border/40 shadow-2xl">
         <Image
-          src="/brand/la-clavija-logo.png"
+          src="/brand/logo-512.webp"
           alt="La Clavija"
           width={1000}
           height={1000}

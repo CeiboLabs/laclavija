@@ -5,7 +5,7 @@ import type { Guitar } from "./types";
 /** @id estable del negocio, referenciable desde otros nodos (offers.seller, etc). */
 export const BUSINESS_ID = `${SITE_URL}/#business`;
 const WEBSITE_ID = `${SITE_URL}/#website`;
-const LOGO_URL = `${SITE_URL}/brand/la-clavija-logo.png`;
+const LOGO_URL = `${SITE_URL}/brand/logo-512.webp`;
 
 /** Telefono en formato E.164 a partir del numero de WhatsApp (sin + ni espacios). */
 function telephone(): string {

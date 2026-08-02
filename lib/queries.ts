@@ -129,8 +129,8 @@ export async function getCatalog(filters: CatalogFilters = {}): Promise<Guitar[]
   if (filters.type) q = q.eq("type", filters.type);
   if (filters.status) q = q.eq("status", filters.status);
   if (filters.brand) q = q.ilike("brand", filters.brand);
-  if (typeof filters.minPrice === "number") q = q.gte("price_usd", filters.minPrice);
-  if (typeof filters.maxPrice === "number") q = q.lte("price_usd", filters.maxPrice);
+  if (typeof filters.minPrice === "number") q = q.gte("price_uyu", filters.minPrice);
+  if (typeof filters.maxPrice === "number") q = q.lte("price_uyu", filters.maxPrice);
   if (typeof filters.minYear === "number") q = q.gte("year", filters.minYear);
   if (typeof filters.maxYear === "number") q = q.lte("year", filters.maxYear);
   if (filters.q) {
@@ -140,8 +140,8 @@ export async function getCatalog(filters: CatalogFilters = {}): Promise<Guitar[]
 
   const sort = filters.sort ?? "recent";
   let sorted;
-  if (sort === "price-asc") sorted = q.order("price_usd", { ascending: true, nullsFirst: false });
-  else if (sort === "price-desc") sorted = q.order("price_usd", { ascending: false, nullsFirst: false });
+  if (sort === "price-asc") sorted = q.order("price_uyu", { ascending: true, nullsFirst: false });
+  else if (sort === "price-desc") sorted = q.order("price_uyu", { ascending: false, nullsFirst: false });
   else if (sort === "year-desc") sorted = q.order("year", { ascending: false, nullsFirst: false });
   else if (sort === "year-asc") sorted = q.order("year", { ascending: true, nullsFirst: false });
   else sorted = q;

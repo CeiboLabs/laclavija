@@ -94,7 +94,7 @@ export function FilterForm({ brands, onApply }: { brands: string[]; onApply?: ()
       }}
     >
       <div>
-        <Label className="text-xs uppercase tracking-widest text-muted-foreground">Categoría</Label>
+        <Label className="mono-meta">Categoría</Label>
         <div className="mt-3 grid grid-cols-1 gap-2">
           {CATEGORIES.map((c) => {
             const active = activeCategory === c.value;
@@ -144,7 +144,7 @@ export function FilterForm({ brands, onApply }: { brands: string[]; onApply?: ()
       )}
 
       <div>
-        <Label className="text-xs uppercase tracking-widest text-muted-foreground">Marca</Label>
+        <Label className="mono-meta">Marca</Label>
         <div className="mt-3">
           <Select
             value={activeBrand ?? ALL}
@@ -166,7 +166,7 @@ export function FilterForm({ brands, onApply }: { brands: string[]; onApply?: ()
       </div>
 
       <div>
-        <Label className="text-xs uppercase tracking-widest text-muted-foreground">Precio (USD)</Label>
+        <Label className="mono-meta">Precio (UYU)</Label>
         <div className="mt-3 grid grid-cols-2 gap-2">
           <Input
             type="number"
@@ -190,7 +190,7 @@ export function FilterForm({ brands, onApply }: { brands: string[]; onApply?: ()
       </div>
 
       <div>
-        <Label className="text-xs uppercase tracking-widest text-muted-foreground">Año</Label>
+        <Label className="mono-meta">Año</Label>
         <div className="mt-3 grid grid-cols-2 gap-2">
           <Input
             type="number"
@@ -214,7 +214,7 @@ export function FilterForm({ brands, onApply }: { brands: string[]; onApply?: ()
       </div>
 
       <div>
-        <Label className="text-xs uppercase tracking-widest text-muted-foreground">Estado</Label>
+        <Label className="mono-meta">Estado</Label>
         <div className="mt-3 flex flex-col gap-1.5">
           {STATUSES.map((s) => {
             const active = activeStatus === s.value;

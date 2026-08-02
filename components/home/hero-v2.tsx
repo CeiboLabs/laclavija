@@ -11,18 +11,13 @@ const EASE = [0.2, 0.65, 0.3, 0.9] as const;
 const containerVariants = {
   hidden: {},
   visible: {
-    transition: { staggerChildren: 0.1, delayChildren: 0.25 },
+    transition: { staggerChildren: 0.08, delayChildren: 0.1 },
   },
 } as const;
 
 const itemVariants = {
   hidden: { opacity: 0, y: 24 },
-  visible: { opacity: 1, y: 0, transition: { duration: 0.8, ease: EASE } },
-} as const;
-
-const maskLineVariants = {
-  hidden: { y: "110%" },
-  visible: { y: "0%", transition: { duration: 1.1, ease: EASE } },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: EASE } },
 } as const;
 
 /**
@@ -62,24 +57,12 @@ export function HeroV2() {
         <motion.p variants={itemVariants} className="mono-meta text-accent">
           Montevideo, Uruguay
         </motion.p>
-        <motion.h1
-          variants={itemVariants}
-          className="mt-5 font-serif text-4xl sm:text-6xl md:text-7xl tracking-tight max-w-4xl leading-[1.02]"
-        >
-          <span className="block overflow-hidden pb-[0.1em]">
-            <motion.span variants={maskLineVariants} className="block">
-              Guitarras seleccionadas.
-            </motion.span>
+        <h1 className="mt-5 font-serif text-4xl sm:text-6xl md:text-7xl tracking-tight max-w-4xl leading-[1.02]">
+          <span className="block">Guitarras seleccionadas.</span>
+          <span className="block italic font-light text-muted-foreground">
+            Compra, venta y permuta en Montevideo.
           </span>
-          <span className="block overflow-hidden pb-[0.1em]">
-            <motion.span
-              variants={maskLineVariants}
-              className="block italic font-light text-muted-foreground"
-            >
-              Compra, venta y permuta en Montevideo.
-            </motion.span>
-          </span>
-        </motion.h1>
+        </h1>
         <motion.div variants={itemVariants} className="mt-8 flex flex-wrap gap-3">
           <Button asChild size="lg" variant="accent">
             <Link href="/catalogo" className="group">

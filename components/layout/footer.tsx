@@ -39,7 +39,7 @@ export async function Footer() {
           <div className="flex items-start gap-4">
             <div className="relative inline-block size-16 shrink-0 rounded-full overflow-hidden ring-1 ring-border">
               <Image
-                src="/brand/la-clavija-logo.png"
+                src="/brand/logo-256.webp"
                 alt="La Clavija"
                 fill
                 sizes="64px"

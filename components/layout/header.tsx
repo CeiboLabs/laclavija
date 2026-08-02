@@ -41,7 +41,7 @@ export function Header() {
         >
           <span className="relative inline-block size-9 shrink-0 rounded-full overflow-hidden ring-1 ring-border">
             <Image
-              src="/brand/la-clavija-logo.png"
+              src="/brand/logo-96.webp"
               alt=""
               fill
               sizes="36px"
@@ -89,7 +89,7 @@ export function Header() {
                 <span className="flex items-center gap-3">
                   <span className="relative inline-block size-12 shrink-0 rounded-full overflow-hidden ring-1 ring-border">
                     <Image
-                      src="/brand/la-clavija-logo.png"
+                      src="/brand/logo-96.webp"
                       alt=""
                       fill
                       sizes="48px"
