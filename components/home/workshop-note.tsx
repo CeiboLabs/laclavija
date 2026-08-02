@@ -46,7 +46,6 @@ export function WorkshopNote() {
               </p>
               <p className="text-foreground/85">
                 Coordinamos entrega en Montevideo y hacemos envíos a todo el país por WhatsApp.
-                Reparaciones también: setup, cambio de trastes, electrónica, amps.
               </p>
             </div>
             <div className="mt-8 flex flex-wrap gap-2 text-xs">
@@ -57,6 +56,7 @@ export function WorkshopNote() {
                 Sobre nosotros
                 <ArrowRight className="size-3 transition-transform group-hover:translate-x-0.5" />
               </Link>
+              {/* Link a Reparaciones desactivado temporalmente. Descomentar cuando se reactive.
               <span aria-hidden className="text-muted-foreground/50">·</span>
               <Link
                 href="/reparaciones"
@@ -65,6 +65,7 @@ export function WorkshopNote() {
                 Reparaciones
                 <ArrowRight className="size-3 transition-transform group-hover:translate-x-0.5" />
               </Link>
+              */}
             </div>
           </Reveal>
         </div>

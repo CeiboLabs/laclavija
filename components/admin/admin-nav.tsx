@@ -3,7 +3,7 @@
 import * as React from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { BarChart3, Guitar, Megaphone, LogOut, Home, Menu } from "lucide-react";
+import { BarChart3, FileText, Guitar, Megaphone, LogOut, Home, Menu } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { signOutAction } from "@/app/admin/login/actions";
 import { Sheet, SheetContent, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
@@ -12,6 +12,7 @@ import { Button } from "@/components/ui/button";
 const links = [
   { href: "/admin", label: "Inicio", icon: Home, exact: true },
   { href: "/admin/guitarras", label: "Guitarras", icon: Guitar },
+  { href: "/admin/blog", label: "Blog", icon: FileText },
   { href: "/admin/estadisticas", label: "Estadísticas", icon: BarChart3 },
   { href: "/admin/promo", label: "Promo modal", icon: Megaphone },
 ];

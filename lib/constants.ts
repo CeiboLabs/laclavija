@@ -34,6 +34,10 @@ export function whatsappLink(message?: string) {
 export const NAV_LINKS = [
   { href: "/catalogo", label: "Catálogo" },
   { href: "/vender", label: "Vender" },
-  { href: "/reparaciones", label: "Reparaciones" },
+  // Reparaciones desactivado temporalmente (2026-08-02). Descomentar para reactivar
+  // + renombrar `app/(site)/_reparaciones` a `reparaciones` + reactivar en sitemap,
+  // command-palette, workshop-note, robots.ts (sacar disallow), keywords home.
+  // { href: "/reparaciones", label: "Reparaciones" },
+  { href: "/blog", label: "Blog" },
   { href: "/nosotros", label: "Nosotros" },
 ] as const;

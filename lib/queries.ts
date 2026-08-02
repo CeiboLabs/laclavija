@@ -1,6 +1,6 @@
 import { createPublicSupabase } from "./supabase/public";
-import { publicImageUrl } from "./supabase/storage";
-import type { Guitar, GuitarSpecs, GuitarStatus, GuitarType, ProductCategory } from "./types";
+import { publicBlogImageUrl, publicImageUrl } from "./supabase/storage";
+import type { BlogPost, Guitar, GuitarSpecs, GuitarStatus, GuitarType, ProductCategory } from "./types";
 
 export type CatalogSort =
   | "recent"
@@ -234,4 +234,86 @@ export async function getPromoConfig(): Promise<PromoConfig | null> {
     return null;
   }
   return (data as PromoConfig | null) ?? null;
+}
+
+// ============================================================
+// Blog
+// ============================================================
+
+type BlogPostRow = {
+  id: string;
+  slug: string;
+  title: string;
+  subtitle: string | null;
+  content: string;
+  cover_image_path: string | null;
+  published: boolean;
+  published_at: string | null;
+  created_at: string;
+  updated_at: string;
+};
+
+function rowToBlogPost(row: BlogPostRow): BlogPost {
+  return {
+    id: row.id,
+    slug: row.slug,
+    title: row.title,
+    subtitle: row.subtitle,
+    content: row.content,
+    cover_image_url: row.cover_image_path ? publicBlogImageUrl(row.cover_image_path) : null,
+    published: row.published,
+    published_at: row.published_at,
+    created_at: row.created_at,
+    updated_at: row.updated_at,
+  };
+}
+
+const BLOG_SELECT = "id, slug, title, subtitle, content, cover_image_path, published, published_at, created_at, updated_at";
+
+/** Listado publico de posts publicados, ordenados por fecha de publicacion desc. */
+export async function getPublishedBlogPosts(limit = 50): Promise<BlogPost[]> {
+  const supabase = createPublicSupabase();
+  const { data, error } = await supabase
+    .from("blog_posts")
+    .select(BLOG_SELECT)
+    .eq("published", true)
+    .order("published_at", { ascending: false, nullsFirst: false })
+    .order("created_at", { ascending: false })
+    .limit(limit);
+  if (error) {
+    console.error("[getPublishedBlogPosts]", error.message);
+    return [];
+  }
+  return (data as BlogPostRow[]).map(rowToBlogPost);
+}
+
+/** Detalle publico de un post por slug. Solo devuelve si esta publicado. */
+export async function getBlogPostBySlug(slug: string): Promise<BlogPost | null> {
+  const supabase = createPublicSupabase();
+  const { data, error } = await supabase
+    .from("blog_posts")
+    .select(BLOG_SELECT)
+    .eq("slug", slug)
+    .eq("published", true)
+    .maybeSingle();
+  if (error) {
+    console.error("[getBlogPostBySlug]", error.message);
+    return null;
+  }
+  if (!data) return null;
+  return rowToBlogPost(data as BlogPostRow);
+}
+
+/** Slugs de todos los posts publicados — para generateStaticParams y sitemap. */
+export async function getAllBlogSlugs(): Promise<{ slug: string; updated_at: string }[]> {
+  const supabase = createPublicSupabase();
+  const { data, error } = await supabase
+    .from("blog_posts")
+    .select("slug, updated_at")
+    .eq("published", true);
+  if (error) {
+    console.error("[getAllBlogSlugs]", error.message);
+    return [];
+  }
+  return (data ?? []) as { slug: string; updated_at: string }[];
 }

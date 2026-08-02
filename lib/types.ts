@@ -22,6 +22,19 @@ export type GuitarSpecs = {
   [key: string]: unknown;
 };
 
+export type BlogPost = {
+  id: string;
+  slug: string;
+  title: string;
+  subtitle: string | null;
+  content: string; // HTML producido por Tiptap
+  cover_image_url: string | null; // URL pública resuelta desde cover_image_path
+  published: boolean;
+  published_at: string | null;
+  created_at: string;
+  updated_at: string;
+};
+
 export type Guitar = {
   id: string;
   slug: string;

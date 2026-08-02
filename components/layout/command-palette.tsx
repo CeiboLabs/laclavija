@@ -39,7 +39,8 @@ const PAGES: { label: string; href: string; icon: React.ComponentType<{ classNam
   { label: "Home", href: "/", icon: Home },
   { label: "Catálogo", href: "/catalogo", icon: Tag },
   { label: "Vender mi guitarra", href: "/vender", icon: GuitarIcon },
-  { label: "Reparaciones", href: "/reparaciones", icon: Wrench },
+  // Reparaciones desactivado temporalmente — descomentar cuando se reactive
+  // { label: "Reparaciones", href: "/reparaciones", icon: Wrench },
   { label: "Nosotros", href: "/nosotros", icon: Home },
 ];
 
@@ -161,6 +162,7 @@ export function CommandPalette() {
               <Tag className="size-4 text-muted-foreground" />
               <span>Tasar mi guitarra</span>
             </CommandItem>
+            {/* Acción de reparaciones desactivada temporalmente — descomentar cuando se reactive
             <CommandItem
               value="reparar reparacion luthier"
               onSelect={() => go("/reparaciones")}
@@ -168,6 +170,7 @@ export function CommandPalette() {
               <Wrench className="size-4 text-muted-foreground" />
               <span>Pedir una reparación</span>
             </CommandItem>
+            */}
           </CommandGroup>
 
           {items && items.length > 0 ? (

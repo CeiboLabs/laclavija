@@ -1,6 +1,6 @@
 import { BUSINESS, SITE_URL } from "./constants";
 import { applyDiscount, categoryLabel, guitarTypeLabel } from "./format";
-import type { Guitar } from "./types";
+import type { BlogPost, Guitar } from "./types";
 
 /** @id estable del negocio, referenciable desde otros nodos (offers.seller, etc). */
 export const BUSINESS_ID = `${SITE_URL}/#business`;
@@ -180,4 +180,31 @@ export function breadcrumbSchema(items: { name: string; path: string }[]) {
       item: `${SITE_URL}${item.path}`,
     })),
   };
+}
+
+/** Schema BlogPosting para un post individual. */
+export function blogPostSchema(post: BlogPost) {
+  const url = `${SITE_URL}/blog/${post.slug}`;
+  const description =
+    post.subtitle?.trim() ||
+    post.content
+      .replace(/<[^>]+>/g, " ")
+      .replace(/\s+/g, " ")
+      .trim()
+      .slice(0, 160);
+  const schema: Record<string, unknown> = {
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    headline: post.title,
+    description,
+    inLanguage: "es-UY",
+    url,
+    mainEntityOfPage: url,
+    datePublished: post.published_at ?? post.created_at,
+    dateModified: post.updated_at,
+    author: { "@id": BUSINESS_ID },
+    publisher: { "@id": BUSINESS_ID },
+  };
+  if (post.cover_image_url) schema.image = post.cover_image_url;
+  return schema;
 }

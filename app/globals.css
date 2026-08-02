@@ -263,3 +263,120 @@
     scroll-behavior: auto !important;
   }
 }
+
+/* ==========================================================
+ * Blog — estilos para el editor Tiptap (admin) y post público
+ * ========================================================== */
+
+.prose-editor {
+  color: var(--foreground);
+  font-family: var(--font-sans);
+  line-height: 1.7;
+}
+.prose-editor h2 {
+  font-family: var(--font-serif);
+  font-size: 1.75rem;
+  line-height: 1.15;
+  margin-top: 1.75rem;
+  margin-bottom: 0.75rem;
+  letter-spacing: -0.01em;
+}
+.prose-editor h3 {
+  font-family: var(--font-serif);
+  font-size: 1.375rem;
+  line-height: 1.2;
+  margin-top: 1.5rem;
+  margin-bottom: 0.5rem;
+}
+.prose-editor p { margin: 0.85rem 0; }
+.prose-editor a { color: var(--accent); text-underline-offset: 4px; text-decoration: underline; }
+.prose-editor strong { font-weight: 600; }
+.prose-editor em { font-style: italic; color: color-mix(in oklab, var(--foreground) 90%, transparent); }
+.prose-editor ul, .prose-editor ol { margin: 0.85rem 0; padding-left: 1.5rem; }
+.prose-editor ul { list-style-type: disc; }
+.prose-editor ol { list-style-type: decimal; }
+.prose-editor li { margin: 0.35rem 0; }
+.prose-editor blockquote {
+  border-left: 2px solid var(--accent);
+  padding-left: 1rem;
+  font-style: italic;
+  color: var(--muted-foreground);
+  margin: 1rem 0;
+}
+.prose-editor hr {
+  border: none;
+  border-top: 1px dashed var(--border);
+  margin: 1.75rem 0;
+}
+.prose-editor img { max-width: 100%; height: auto; border-radius: 0.25rem; margin: 1rem 0; }
+.prose-editor code {
+  background: var(--secondary);
+  padding: 0.15rem 0.35rem;
+  border-radius: 0.25rem;
+  font-family: var(--font-mono);
+  font-size: 0.9em;
+}
+.prose-editor p.is-editor-empty:first-child::before {
+  content: attr(data-placeholder);
+  color: var(--muted-foreground);
+  float: left;
+  height: 0;
+  pointer-events: none;
+}
+
+/* Igual al editor pero para renderizar el contenido guardado en el detalle
+   público (dangerouslySetInnerHTML). Compartimos las reglas y sumamos tamaños
+   más generosos porque el post público es más "de leer". */
+.prose-post {
+  color: var(--foreground);
+  font-family: var(--font-sans);
+  line-height: 1.75;
+  font-size: 1.075rem;
+}
+.prose-post h2 {
+  font-family: var(--font-serif);
+  font-size: 2rem;
+  line-height: 1.1;
+  margin-top: 2.5rem;
+  margin-bottom: 1rem;
+  letter-spacing: -0.01em;
+}
+.prose-post h3 {
+  font-family: var(--font-serif);
+  font-size: 1.5rem;
+  line-height: 1.2;
+  margin-top: 2rem;
+  margin-bottom: 0.75rem;
+}
+.prose-post p { margin: 1.15rem 0; color: color-mix(in oklab, var(--foreground) 92%, transparent); }
+.prose-post a { color: var(--accent); text-underline-offset: 4px; text-decoration: underline; }
+.prose-post a:hover { color: color-mix(in oklab, var(--accent) 80%, white); }
+.prose-post strong { font-weight: 600; color: var(--foreground); }
+.prose-post em { font-style: italic; }
+.prose-post ul, .prose-post ol { margin: 1.15rem 0; padding-left: 1.75rem; }
+.prose-post ul { list-style-type: disc; }
+.prose-post ol { list-style-type: decimal; }
+.prose-post li { margin: 0.4rem 0; }
+.prose-post blockquote {
+  border-left: 2px solid var(--accent);
+  padding-left: 1.25rem;
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: 1.35rem;
+  line-height: 1.5;
+  color: var(--foreground);
+  margin: 1.75rem 0;
+}
+.prose-post hr {
+  border: none;
+  border-top: 1px dashed var(--border);
+  margin: 2.5rem 0;
+}
+.prose-post img { max-width: 100%; height: auto; border-radius: 0.375rem; margin: 1.75rem 0; }
+.prose-post code {
+  background: var(--secondary);
+  padding: 0.15rem 0.4rem;
+  border-radius: 0.25rem;
+  font-family: var(--font-mono);
+  font-size: 0.9em;
+}

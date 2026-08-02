@@ -15,7 +15,7 @@ export const metadata: Metadata = {
     "vender guitarra Uruguay",
     "permuta de guitarras",
     "guitarras usadas",
-    "reparación de guitarras",
+    // "reparación de guitarras",  // Reparaciones desactivadas temporalmente
     "amplificadores Uruguay",
   ],
   alternates: { canonical: "/" },

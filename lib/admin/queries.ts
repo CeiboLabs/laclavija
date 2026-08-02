@@ -1,6 +1,6 @@
 import { createServerSupabase } from "@/lib/supabase/server";
-import { publicImageUrl } from "@/lib/supabase/storage";
-import type { Guitar, GuitarSpecs, GuitarStatus, GuitarType, ProductCategory } from "@/lib/types";
+import { publicBlogImageUrl, publicImageUrl } from "@/lib/supabase/storage";
+import type { BlogPost, Guitar, GuitarSpecs, GuitarStatus, GuitarType, ProductCategory } from "@/lib/types";
 
 export type AdminGuitarFilters = {
   q?: string;
@@ -102,4 +102,67 @@ export async function getAdminGuitarById(id: string): Promise<AdminGuitarRow | n
   }
   if (!data) return null;
   return mapRow(data as unknown as Parameters<typeof mapRow>[0]);
+}
+
+// ============================================================
+// Blog
+// ============================================================
+
+export type AdminBlogPostRow = BlogPost & {
+  cover_image_path: string | null;
+};
+
+type RawBlogRow = {
+  id: string;
+  slug: string;
+  title: string;
+  subtitle: string | null;
+  content: string;
+  cover_image_path: string | null;
+  published: boolean;
+  published_at: string | null;
+  created_at: string;
+  updated_at: string;
+};
+
+function mapBlogRow(row: RawBlogRow): AdminBlogPostRow {
+  return {
+    id: row.id,
+    slug: row.slug,
+    title: row.title,
+    subtitle: row.subtitle,
+    content: row.content,
+    cover_image_path: row.cover_image_path,
+    cover_image_url: row.cover_image_path ? publicBlogImageUrl(row.cover_image_path) : null,
+    published: row.published,
+    published_at: row.published_at,
+    created_at: row.created_at,
+    updated_at: row.updated_at,
+  };
+}
+
+const BLOG_SELECT_ADMIN = "id, slug, title, subtitle, content, cover_image_path, published, published_at, created_at, updated_at";
+
+export async function listAdminBlogPosts(): Promise<AdminBlogPostRow[]> {
+  const supabase = await createServerSupabase();
+  const { data, error } = await supabase
+    .from("blog_posts")
+    .select(BLOG_SELECT_ADMIN)
+    .order("created_at", { ascending: false });
+  if (error) {
+    console.error("[listAdminBlogPosts]", error.message);
+    return [];
+  }
+  return (data as RawBlogRow[]).map(mapBlogRow);
+}
+
+export async function getAdminBlogPostById(id: string): Promise<AdminBlogPostRow | null> {
+  const supabase = await createServerSupabase();
+  const { data, error } = await supabase.from("blog_posts").select(BLOG_SELECT_ADMIN).eq("id", id).maybeSingle();
+  if (error) {
+    console.error("[getAdminBlogPostById]", error.message);
+    return null;
+  }
+  if (!data) return null;
+  return mapBlogRow(data as RawBlogRow);
 }
