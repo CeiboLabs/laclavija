@@ -22,6 +22,12 @@
     "enabled": true
   },
 
+  // Deshabilitar el subdominio workers.dev auto-generado.
+  // Solo el custom domain (laclavija.com.uy) sirve trafico — evita duplicado
+  // que Google podria indexar como sitio aparte y penalizar SEO.
+  "workers_dev": false,
+  "preview_urls": false,
+
   // Custom domains — mapean el Worker a laclavija.com.uy y www.
   "routes": [
     {
