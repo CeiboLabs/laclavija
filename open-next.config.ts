@@ -1,10 +1,23 @@
 import { defineCloudflareConfig } from "@opennextjs/cloudflare";
+import staticAssetsIncrementalCache from "@opennextjs/cloudflare/overrides/incremental-cache/static-assets-incremental-cache";
 
 /**
- * Config de OpenNext para Cloudflare. Los defaults son suficientes para este
- * sitio: SSR + Server Actions + revalidatePath, todo corre en un Worker.
+ * Config de OpenNext para Cloudflare. defineCloudflareConfig() maneja los
+ * overrides específicos del adapter; el resto de opciones (buildCommand, etc.)
+ * las mergeamos manualmente.
  *
- * No usamos cache incremental (ISR) porque el catálogo es dinámico contra
- * Supabase y el revalidate por-path se dispara desde los server actions.
+ * incrementalCache: si no se define un override, OpenNext usa el cache "dummy"
+ * por default y las rutas SSG (/, /vender, /nosotros, /blog...) devuelven 500
+ * porque nunca encuentra el prerender. staticAssets sirve las páginas
+ * prerenderizadas desde los Cloudflare Workers Assets, read-only.
  */
-export default defineCloudflareConfig({});
+const cf = defineCloudflareConfig({
+  incrementalCache: staticAssetsIncrementalCache,
+});
+
+export default {
+  ...cf,
+  // Bypass pnpm — invocar next build directo. pnpm 10.x + Node 25 rompe con
+  // execSync (runDepsStatusCheck falla en subshell).
+  buildCommand: "./node_modules/.bin/next build --debug-prerender",
+};

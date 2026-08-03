@@ -8,14 +8,7 @@ import { categoryLabel, guitarTypeLabel } from "@/lib/format";
  * Server component — hidrata en SSR con la data de Supabase.
  */
 export async function TopMarquee() {
-  console.log("[TopMarquee] starting");
-  let items: Awaited<ReturnType<typeof getLatestProducts>> = [];
-  try {
-    items = await getLatestProducts(8);
-    console.log("[TopMarquee] fetched", { count: items.length });
-  } catch (err) {
-    console.error("[TopMarquee] getLatestProducts threw:", err instanceof Error ? { name: err.name, message: err.message, stack: err.stack } : err);
-  }
+  const items = await getLatestProducts(8);
   if (items.length === 0) return null;
 
   return (

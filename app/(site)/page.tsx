@@ -1,19 +1,35 @@
 import type { Metadata } from "next";
+import { HeroV2 } from "@/components/home/hero-v2";
+import { LatestArrivals } from "@/components/home/latest-arrivals";
+import { WorkshopNote } from "@/components/home/workshop-note";
+import { TopMarquee } from "@/components/layout/top-marquee";
+import { getLatestProducts } from "@/lib/queries";
 import { BUSINESS } from "@/lib/constants";
 
 export const metadata: Metadata = {
   description: BUSINESS.description,
+  keywords: [
+    "guitarras Montevideo",
+    "guitarras Uruguay",
+    "comprar guitarra Montevideo",
+    "vender guitarra Uruguay",
+    "permuta de guitarras",
+    "guitarras usadas",
+    // "reparación de guitarras",  // Reparaciones desactivadas temporalmente
+    "amplificadores Uruguay",
+  ],
   alternates: { canonical: "/" },
 };
 
-// DEBUG: home ultra-minimal — para descartar que el crash esta en Hero/TopMarquee/etc
-// Si esto tampoco funciona, el problema esta en layout/middleware/framework
-export default function HomePage() {
-  console.log("[HomePage-DEBUG] rendering minimal");
+export default async function HomePage() {
+  const latest = await getLatestProducts(3);
+
   return (
-    <div style={{ padding: "4rem 2rem", color: "#F5F5F5" }}>
-      <h1 style={{ fontSize: "2rem" }}>Debug home</h1>
-      <p>Si ves esto, el layout funciona y el crash estaba en un componente hijo.</p>
-    </div>
+    <>
+      <HeroV2 />
+      <TopMarquee />
+      <LatestArrivals products={latest} />
+      <WorkshopNote />
+    </>
   );
 }

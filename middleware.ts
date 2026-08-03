@@ -12,7 +12,6 @@ function newSessionId() {
 }
 
 export async function middleware(request: NextRequest) {
-  console.log("[middleware] start", { path: request.nextUrl.pathname });
   let response = NextResponse.next({ request });
 
   // Asegurar cookie de sesión anónima para tracking. La seteamos vía response
@@ -48,14 +47,9 @@ export async function middleware(request: NextRequest) {
   );
 
   // IMPORTANT: refresca el JWT si es necesario. No remover.
-  let user = null;
-  try {
-    const res = await supabase.auth.getUser();
-    user = res.data.user;
-    console.log("[middleware] auth ok", { hasUser: !!user });
-  } catch (err) {
-    console.error("[middleware] auth.getUser threw:", err instanceof Error ? { name: err.name, message: err.message } : err);
-  }
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
 
   const pathname = request.nextUrl.pathname;
   const needsAuth = pathname.startsWith(PROTECTED_PREFIX) && pathname !== LOGIN_PATH;

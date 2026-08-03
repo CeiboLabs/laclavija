@@ -1,15 +1,35 @@
-// DEBUG: layout ultra-minimal — sin imports de componentes, sin Supabase.
-// Si esto funciona, el crash estaba en un import del layout original
-// (Header/Footer/PromoModal/JsonLd/getPromoConfig).
+import { Header } from "@/components/layout/header";
+import { Footer } from "@/components/layout/footer";
+import { PromoModal } from "@/components/promo/promo-modal";
+import { JsonLd } from "@/components/seo/json-ld";
+import { getPromoConfig } from "@/lib/queries";
+import { localBusinessSchema, websiteSchema } from "@/lib/seo";
+import { publicImageUrl } from "@/lib/supabase/storage";
 
-export default function SiteLayout({ children }: { children: React.ReactNode }) {
-  console.log("[SiteLayout-DEBUG] rendering minimal");
+export default async function SiteLayout({ children }: { children: React.ReactNode }) {
+  const promo = await getPromoConfig();
+
+  const showPromo =
+    promo?.active &&
+    (promo.title || promo.message) &&
+    (!promo.expires_at || new Date(promo.expires_at).getTime() > Date.now());
+
   return (
-    <div style={{ background: "#0A0A0A", color: "#F5F5F5", minHeight: "100vh" }}>
-      <header style={{ padding: "1rem 2rem", borderBottom: "1px solid #333" }}>
-        <p style={{ fontSize: "0.75rem", opacity: 0.5 }}>Debug layout</p>
-      </header>
-      <main>{children}</main>
+    <div className="flex min-h-dvh flex-col">
+      <JsonLd data={[localBusinessSchema(), websiteSchema()]} />
+      <Header />
+      <main className="flex-1">{children}</main>
+      <Footer />
+      {showPromo && promo ? (
+        <PromoModal
+          version={promo.updated_at}
+          title={promo.title}
+          message={promo.message}
+          ctaLabel={promo.cta_label}
+          ctaUrl={promo.cta_url}
+          imageUrl={promo.image_path ? publicImageUrl(promo.image_path) : null}
+        />
+      ) : null}
     </div>
   );
 }
