@@ -15,15 +15,14 @@ const DARK = "#0A0A0A";
 const ACCENT = "#CBA35C";
 const MUTED = "#C9C2B5";
 
-/** Baja una version chica de la foto desde el render endpoint de Supabase y la
- *  devuelve como data URL. Si falla, null (la tarjeta cae al layout sin foto). */
+/** Baja la foto desde el bucket publico de Supabase y la devuelve como data URL.
+ *  Si falla, null (la tarjeta cae al layout sin foto).
+ *  NOTA: usamos /object/public/ crudo — el render/image endpoint no esta
+ *  disponible en el plan Free de Supabase. Las fotos ya vienen comprimidas
+ *  a WebP <500KB desde el admin (browser-image-compression). */
 async function fetchPhotoDataUrl(url: string): Promise<string | null> {
   try {
-    const render = url.replace(
-      "/storage/v1/object/public/",
-      "/storage/v1/render/image/public/",
-    );
-    const res = await fetch(`${render}?width=640&height=630&resize=cover&quality=80`);
+    const res = await fetch(url);
     if (!res.ok) return null;
     const type = res.headers.get("content-type") ?? "image/jpeg";
     const buf = Buffer.from(await res.arrayBuffer());
