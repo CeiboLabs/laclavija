@@ -1,5 +1,7 @@
 verify-deps-before-run: false
 
 allowBuilds:
+  esbuild: set this to true or false
   sharp: set this to true or false
   unrs-resolver: set this to true or false
+  workerd: set this to true or false

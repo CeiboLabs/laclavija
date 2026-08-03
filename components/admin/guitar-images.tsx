@@ -8,6 +8,7 @@ import { ImagePlus, Trash2, UploadCloud } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { ConfirmDialog } from "@/components/ui/confirm-dialog";
 import { cn } from "@/lib/utils";
+import { compressImage } from "@/lib/image-compress";
 import {
   deleteGuitarImageAction,
   setImagePositionAction,
@@ -30,8 +31,15 @@ export function GuitarImages({ guitarId, images }: { guitarId: string; images: I
   const inputRef = React.useRef<HTMLInputElement>(null);
 
   async function uploadOne(file: File): Promise<{ ok: true } | { ok: false; error: string }> {
+    // Comprimir cliente-side antes de enviar (resize + WebP quality 82).
+    let optimized: File;
+    try {
+      optimized = await compressImage(file, "product");
+    } catch (err) {
+      return { ok: false, error: `No se pudo optimizar: ${(err as Error).message}` };
+    }
     const fd = new FormData();
-    fd.append("file", file);
+    fd.append("file", optimized);
     const res = await uploadGuitarImageAction(guitarId, null, fd);
     if (res.ok) return { ok: true };
     return { ok: false, error: res.error ?? "Error desconocido." };

@@ -4,7 +4,10 @@ import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { createServerSupabase } from "@/lib/supabase/server";
 import { BLOG_STORAGE_BUCKET } from "@/lib/supabase/storage";
-import { MAX_BLOG_COVER_BYTES, processBlogCover } from "@/lib/admin/image-process";
+
+// Compresion + conversion a WebP la hace el cliente antes del upload
+// (ver lib/image-compress.ts). El server solo valida tamaño y sube tal cual.
+const MAX_BLOG_COVER_BYTES = 3 * 1024 * 1024; // 3MB después de compresión cliente
 
 function slugify(text: string) {
   return text
@@ -62,21 +65,14 @@ async function uploadCoverIfPresent(
 ): Promise<{ path: string | null; error?: string }> {
   if (!(cover instanceof File) || cover.size === 0) return { path: null };
   if (cover.size > MAX_BLOG_COVER_BYTES)
-    return { path: null, error: `La portada pesa más de ${MAX_BLOG_COVER_BYTES / 1024 / 1024}MB.` };
+    return { path: null, error: `La portada pesa más de ${MAX_BLOG_COVER_BYTES / 1024 / 1024}MB después de comprimir.` };
 
-  // Procesar: auto-orient EXIF, resize a 1920 max, convertir a WebP con quality 82.
-  let processed;
-  try {
-    const buf = Buffer.from(await cover.arrayBuffer());
-    processed = await processBlogCover(buf);
-  } catch (err) {
-    return { path: null, error: `No se pudo procesar la portada: ${(err as Error).message}` };
-  }
-
-  const path = `${slug}/cover-${Date.now()}.${processed.ext}`;
+  // Ya viene comprimida y en WebP desde el cliente. Solo subir.
+  const ext = cover.name.split(".").pop()?.toLowerCase() || "webp";
+  const path = `${slug}/cover-${Date.now()}.${ext}`;
   const { error } = await supabase.storage
     .from(BLOG_STORAGE_BUCKET)
-    .upload(path, processed.buffer, { contentType: processed.contentType, upsert: false });
+    .upload(path, cover, { contentType: cover.type || "image/webp", upsert: false });
   if (error) return { path: null, error: error.message };
   return { path };
 }

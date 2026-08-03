@@ -9,6 +9,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { ConfirmSubmitButton } from "@/components/ui/confirm-dialog";
+import { compressImage } from "@/lib/image-compress";
 import { savePromoAction, type SavePromoState } from "@/app/admin/(panel)/promo/actions";
 
 type Initial = {
@@ -148,10 +149,25 @@ export function PromoForm({ initial }: { initial: Initial }) {
                   name="image"
                   accept="image/jpeg,image/png,image/webp,image/avif"
                   className="hidden"
-                  onChange={(e) => {
-                    const f = e.target.files?.[0] ?? null;
-                    setNewImage(f);
-                    if (f) setRemoveImage(false);
+                  onChange={async (e) => {
+                    const raw = e.target.files?.[0] ?? null;
+                    if (!raw) {
+                      setNewImage(null);
+                      return;
+                    }
+                    try {
+                      const optimized = await compressImage(raw, "cover");
+                      // Reinyectar el archivo optimizado al input para el FormData del form
+                      if (fileInputRef.current) {
+                        const dt = new DataTransfer();
+                        dt.items.add(optimized);
+                        fileInputRef.current.files = dt.files;
+                      }
+                      setNewImage(optimized);
+                      setRemoveImage(false);
+                    } catch (err) {
+                      toast.error(`No se pudo optimizar la imagen: ${(err as Error).message}`);
+                    }
                   }}
                 />
               </label>

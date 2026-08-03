@@ -3,7 +3,7 @@
 import * as React from "react";
 import { MessageCircle, Paperclip } from "lucide-react";
 import { toast } from "sonner";
-import { track } from "@vercel/analytics";
+import { track } from "@/lib/track";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";

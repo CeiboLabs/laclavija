@@ -3,7 +3,7 @@
 import * as React from "react";
 import { toast } from "sonner";
 import { Check, Share2 } from "lucide-react";
-import { track } from "@vercel/analytics";
+import { track } from "@/lib/track";
 import { Button } from "@/components/ui/button";
 import { SITE_URL } from "@/lib/constants";
 import type { Guitar } from "@/lib/types";

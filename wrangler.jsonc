@@ -1,0 +1,22 @@
+/**
+ * Config del Worker de Cloudflare para deploy vía Pages/Workers.
+ * Este proyecto se despliega con `pnpm cf:deploy` (ver package.json).
+ *
+ * Env vars: se configuran desde el dashboard de Cloudflare
+ * (Pages → Settings → Environment variables). Las que empiezan con
+ * NEXT_PUBLIC_ deben estar disponibles en build time también.
+ */
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "laclavija",
+  "main": ".open-next/worker.js",
+  "compatibility_date": "2024-12-30",
+  "compatibility_flags": ["nodejs_compat"],
+  "assets": {
+    "directory": ".open-next/assets",
+    "binding": "ASSETS"
+  },
+  "observability": {
+    "enabled": true
+  }
+}

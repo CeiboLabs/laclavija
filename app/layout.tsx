@@ -1,8 +1,8 @@
 import type { Metadata, Viewport } from "next";
 import { Inter, Fraunces, JetBrains_Mono } from "next/font/google";
 import { Suspense } from "react";
+import Script from "next/script";
 import { Toaster } from "sonner";
-import { Analytics } from "@vercel/analytics/next";
 import { TopProgress } from "@/components/layout/top-progress";
 import { BUSINESS } from "@/lib/constants";
 import "./globals.css";
@@ -61,6 +61,8 @@ export const viewport: Viewport = {
   themeColor: "#0A0A0A",
 };
 
+const cfAnalyticsToken = process.env.NEXT_PUBLIC_CF_ANALYTICS_TOKEN;
+
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="es" className={`${inter.variable} ${fraunces.variable} ${jetbrainsMono.variable}`}>
@@ -69,7 +71,13 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <TopProgress />
         </Suspense>
         {children}
-        <Analytics />
+        {cfAnalyticsToken ? (
+          <Script
+            src="https://static.cloudflareinsights.com/beacon.min.js"
+            data-cf-beacon={`{"token": "${cfAnalyticsToken}"}`}
+            strategy="afterInteractive"
+          />
+        ) : null}
         <Toaster
           position="bottom-right"
           theme="dark"

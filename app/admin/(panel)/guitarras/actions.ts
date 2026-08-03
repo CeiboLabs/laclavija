@@ -4,7 +4,9 @@ import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { createServerSupabase } from "@/lib/supabase/server";
 import { STORAGE_BUCKET } from "@/lib/supabase/storage";
-import { MAX_UPLOAD_BYTES, processGuitarImage } from "@/lib/admin/image-process";
+// Compresion + WebP la hace el cliente (ver lib/image-compress.ts).
+// El server solo valida tamaño y sube tal cual. Sharp no corre en Cloudflare Workers.
+const MAX_UPLOAD_BYTES = 3 * 1024 * 1024; // 3MB después de compresión cliente
 import type { GuitarSpecs, GuitarStatus, GuitarType, ProductCategory } from "@/lib/types";
 
 const TYPES: GuitarType[] = ["electric", "acoustic", "classical", "bass"];
@@ -154,19 +156,14 @@ async function uploadProcessedImage(
   position: number,
 ): Promise<{ ok: true } | { ok: false; error: string }> {
   if (file.size > MAX_UPLOAD_BYTES) {
-    return { ok: false, error: `"${file.name}" pesa más de 15MB.` };
+    return { ok: false, error: `"${file.name}" pesa más de ${MAX_UPLOAD_BYTES / 1024 / 1024}MB después de comprimir.` };
   }
-  let processed;
-  try {
-    const buf = Buffer.from(await file.arrayBuffer());
-    processed = await processGuitarImage(buf);
-  } catch (err) {
-    return { ok: false, error: `No se pudo procesar "${file.name}": ${(err as Error).message}` };
-  }
-  const path = `${slug}/${position}-${Date.now()}.${processed.ext}`;
+  // Ya viene comprimida y en WebP desde el cliente. Solo subir.
+  const ext = file.name.split(".").pop()?.toLowerCase() || "webp";
+  const path = `${slug}/${position}-${Date.now()}.${ext}`;
   const { error: upErr } = await supabase.storage
     .from(STORAGE_BUCKET)
-    .upload(path, processed.buffer, { contentType: processed.contentType, upsert: false });
+    .upload(path, file, { contentType: file.type || "image/webp", upsert: false });
   if (upErr) return { ok: false, error: upErr.message };
 
   const { error: insErr } = await supabase

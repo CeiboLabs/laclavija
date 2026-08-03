@@ -10,6 +10,7 @@ import { Label } from "@/components/ui/label";
 import { ConfirmSubmitButton } from "@/components/ui/confirm-dialog";
 import { BlogEditor } from "./blog-editor";
 import { cn } from "@/lib/utils";
+import { compressImage } from "@/lib/image-compress";
 import type { AdminBlogPostRow } from "@/lib/admin/queries";
 import type { SaveBlogPostState } from "@/app/admin/(panel)/blog/actions";
 
@@ -38,6 +39,7 @@ export function BlogForm({
   const [removeCover, setRemoveCover] = React.useState(false);
   const fileInputRef = React.useRef<HTMLInputElement>(null);
   const [dragActive, setDragActive] = React.useState(false);
+  const [compressing, setCompressing] = React.useState(false);
 
   React.useEffect(() => {
     if (!state || state === lastSeen.current) return;
@@ -46,20 +48,30 @@ export function BlogForm({
     else if (state.error) toast.error(state.error);
   }, [state]);
 
-  function handleFile(file: File | null) {
-    if (file) {
-      // Inyectar el file en el input siempre montado, para que llegue al FormData del form.
-      if (fileInputRef.current) {
-        const dt = new DataTransfer();
-        dt.items.add(file);
-        fileInputRef.current.files = dt.files;
-      }
-      setHasNewFile(true);
-      setRemoveCover(false);
-      const reader = new FileReader();
-      reader.onload = (e) => setCoverPreview(e.target?.result as string);
-      reader.readAsDataURL(file);
+  async function handleFile(file: File | null) {
+    if (!file) return;
+    setCompressing(true);
+    let optimized: File;
+    try {
+      optimized = await compressImage(file, "cover");
+    } catch (err) {
+      toast.error(`No se pudo optimizar la imagen: ${(err as Error).message}`);
+      setCompressing(false);
+      return;
     }
+    // Inyectar el file (ya comprimido) en el input siempre montado, para que
+    // llegue al FormData del form al hacer submit.
+    if (fileInputRef.current) {
+      const dt = new DataTransfer();
+      dt.items.add(optimized);
+      fileInputRef.current.files = dt.files;
+    }
+    setHasNewFile(true);
+    setRemoveCover(false);
+    const reader = new FileReader();
+    reader.onload = (e) => setCoverPreview(e.target?.result as string);
+    reader.readAsDataURL(optimized);
+    setCompressing(false);
   }
 
   function handleDrop(e: React.DragEvent) {
@@ -158,13 +170,23 @@ export function BlogForm({
               dragActive && "border-accent bg-accent/5",
             )}
           >
-            <Upload className="size-6 text-muted-foreground" />
+            <Upload className={cn("size-6", compressing ? "text-accent animate-pulse" : "text-muted-foreground")} />
             <div className="text-sm">
-              <span className="font-medium">Arrastrá una imagen</span> o hacé click para elegir
+              {compressing ? (
+                <span className="font-medium text-accent">Optimizando imagen…</span>
+              ) : (
+                <>
+                  <span className="font-medium">Arrastrá una imagen</span> o hacé click para elegir
+                </>
+              )}
             </div>
-            <p className="text-xs text-muted-foreground">JPG, PNG o WebP</p>
+            <p className="text-xs text-muted-foreground">JPG, PNG o WebP — se convierte a WebP automáticamente</p>
           </div>
         )}
+
+        {compressing && coverPreview ? (
+          <p className="text-xs text-accent">Optimizando imagen…</p>
+        ) : null}
 
         {coverPreview && !hasNewFile && !removeCover ? (
           <button
