@@ -18,6 +18,7 @@ const cf = defineCloudflareConfig({
 export default {
   ...cf,
   // Bypass pnpm — invocar next build directo. pnpm 10.x + Node 25 rompe con
-  // execSync (runDepsStatusCheck falla en subshell).
-  buildCommand: "./node_modules/.bin/next build --debug-prerender",
+  // execSync (runDepsStatusCheck falla en subshell). En Cloudflare CI (Node 22)
+  // no aplica pero el override es inocuo ahí.
+  buildCommand: "./node_modules/.bin/next build",
 };
