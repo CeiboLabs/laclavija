@@ -9,7 +9,15 @@ import { Marquee } from "@/components/decor/marquee";
 import { Wordmark } from "@/components/brand/wordmark";
 
 export async function Footer() {
-  const [brands, sold] = await Promise.all([getAllBrands(), getRecentlySold(6)]);
+  console.log("[Footer] starting");
+  let brands: string[] = [];
+  let sold: Awaited<ReturnType<typeof getRecentlySold>> = [];
+  try {
+    [brands, sold] = await Promise.all([getAllBrands(), getRecentlySold(6)]);
+    console.log("[Footer] fetched", { brandsCount: brands.length, soldCount: sold.length });
+  } catch (err) {
+    console.error("[Footer] fetch threw:", err instanceof Error ? { name: err.name, message: err.message, stack: err.stack } : err);
+  }
   return (
     <footer className="mt-32 border-t border-border bg-background">
       {/* Marquee de recién vendidas */}

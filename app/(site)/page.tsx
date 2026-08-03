@@ -22,7 +22,14 @@ export const metadata: Metadata = {
 };
 
 export default async function HomePage() {
-  const latest = await getLatestProducts(3);
+  console.log("[HomePage] starting");
+  let latest: Awaited<ReturnType<typeof getLatestProducts>> = [];
+  try {
+    latest = await getLatestProducts(3);
+    console.log("[HomePage] fetched", { count: latest.length });
+  } catch (err) {
+    console.error("[HomePage] getLatestProducts threw:", err instanceof Error ? { name: err.name, message: err.message, stack: err.stack } : err);
+  }
 
   return (
     <>
