@@ -17,15 +17,33 @@ const MUTED = "#C9C2B5";
 
 /** Baja la foto desde el bucket publico de Supabase y la devuelve como data URL.
  *  Si falla, null (la tarjeta cae al layout sin foto).
- *  NOTA: usamos /object/public/ crudo — el render/image endpoint no esta
- *  disponible en el plan Free de Supabase. Las fotos ya vienen comprimidas
- *  a WebP <500KB desde el admin (browser-image-compression). */
+ *
+ *  Detalles:
+ *  - Usamos /object/public/ crudo — el render/image endpoint no esta disponible
+ *    en el plan Free de Supabase.
+ *  - Satori (que usa next/og por debajo) NO soporta WebP. Las fotos del admin
+ *    vienen en WebP (browser-image-compression), asi que convertimos a JPEG
+ *    con sharp cuando esta disponible. Sharp corre en Node build-time pero NO
+ *    en Cloudflare Worker runtime — si el import falla, damos null. */
 async function fetchPhotoDataUrl(url: string): Promise<string | null> {
   try {
     const res = await fetch(url);
     if (!res.ok) return null;
     const type = res.headers.get("content-type") ?? "image/jpeg";
     const buf = Buffer.from(await res.arrayBuffer());
+
+    // Satori solo acepta PNG/JPEG. WebP y AVIF hay que convertirlos.
+    if (type === "image/webp" || type === "image/avif") {
+      try {
+        const sharpMod = await import("sharp");
+        const sharp = sharpMod.default;
+        const jpegBuf = await sharp(new Uint8Array(buf)).jpeg({ quality: 82 }).toBuffer();
+        return `data:image/jpeg;base64,${jpegBuf.toString("base64")}`;
+      } catch {
+        // Sharp no disponible (Worker runtime) → sin foto.
+        return null;
+      }
+    }
     return `data:${type};base64,${buf.toString("base64")}`;
   } catch {
     return null;
