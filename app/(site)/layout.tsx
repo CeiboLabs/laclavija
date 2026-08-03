@@ -6,6 +6,13 @@ import { getPromoConfig } from "@/lib/queries";
 import { localBusinessSchema, websiteSchema } from "@/lib/seo";
 import { publicImageUrl } from "@/lib/supabase/storage";
 
+// Dinamico — el Footer usa getRecentlySold() y getAllBrands(), y la
+// PromoModal usa getPromoConfig(). Con staticAssetsIncrementalCache
+// read-only, si es SSG el layout queda pegado al snapshot del deploy y
+// no reflejaria cambios en estos datos hasta el proximo build. Ver
+// [[ssg-vs-dynamic-cloudflare]].
+export const dynamic = "force-dynamic";
+
 export default async function SiteLayout({ children }: { children: React.ReactNode }) {
   const promo = await getPromoConfig();
 
