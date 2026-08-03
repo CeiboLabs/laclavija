@@ -34,21 +34,22 @@ export default function AboutPage() {
             className="object-cover"
           />
         </div>
-        <p className="mt-3 text-xs text-muted-foreground text-center italic">Parte de la colección personal.</p>
+        <p className="mt-3 text-xs text-muted-foreground text-center italic">
+          Guitarras que buscan segundos sonidos.
+        </p>
       </Reveal>
 
       <div className="container-prose px-5 sm:px-8 space-y-7 text-foreground/90 leading-relaxed">
         <p>
-          Lo que arrancó como una obsesión personal con instrumentos vintage terminó siendo un trabajo.
-          Empezamos comprando y vendiendo entre amigos hace más de una década, y con el tiempo se convirtió
-          en una selección chica pero cuidada de guitarras usadas.
+          Lo que arrancó como una obsesión personal con guitarras terminó siendo un trabajo. Empezamos
+          comprando y vendiendo entre amigos, y con el tiempo se convirtió en una selección chica pero
+          cuidada de guitarras usadas.
         </p>
 
         <p>
           No somos una tienda en el sentido tradicional. No hay local, no hay vidriera, no hay catálogo
           masivo, no hay carrito de compras. Compramos pocas guitarras al mes — solo las que pasarían nuestro
-          propio filtro — y las vendemos a gente que valora lo mismo que nosotros: madera, hardware original,
-          historia.
+          propio filtro — y las vendemos a gente que valora lo mismo que nosotros: madera, sonido, historia.
         </p>
       </div>
 
@@ -89,8 +90,7 @@ export default function AboutPage() {
       <div className="container-prose px-5 sm:px-8 space-y-7 text-foreground/90 leading-relaxed">
         <p>
           La filosofía es simple. Cuando vendemos: te contamos todo lo que sabemos, lo bueno y lo no tan bueno.
-          Cuando compramos: te tasamos justo y te pagamos en el día. Cuando arreglamos: usamos repuestos
-          coherentes con la época del instrumento.
+          Cuando compramos: te tasamos justo y te pagamos al recibir la guitarra.
         </p>
 
         <p>
@@ -103,8 +103,8 @@ export default function AboutPage() {
         <p className="mono-meta text-accent">Coordinar encuentro</p>
         <h2 className="mt-4 font-serif text-3xl tracking-tight">Todo por WhatsApp.</h2>
         <p className="mt-5 text-muted-foreground leading-relaxed">
-          No tenemos local abierto al público. Coordinamos punto de encuentro en Montevideo por WhatsApp
-          para que puedas probar la guitarra que te interesa con tiempo y sin apuro.
+          No tenemos local abierto al público. Coordinamos las entregas por WhatsApp para que puedas probar
+          la guitarra que te interesa con tiempo y sin apuro.
         </p>
         <p className="mt-4 text-muted-foreground leading-relaxed">
           Si estás en el interior, <span className="text-foreground">hacemos envíos a todo el país</span> —

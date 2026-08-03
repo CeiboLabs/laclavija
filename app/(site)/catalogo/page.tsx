@@ -47,7 +47,7 @@ export default async function CatalogPage({ searchParams }: { searchParams: Prom
           <div className="flex items-center justify-between gap-6 mb-6">
             <p className="mono-meta text-accent">Catálogo</p>
             <p className="mono-meta hidden sm:block">
-              {guitars.length} {guitars.length === 1 ? "instrumento" : "instrumentos"}
+              {guitars.length} {guitars.length === 1 ? "producto" : "productos"}
             </p>
           </div>
           <h1 className="font-serif text-4xl md:text-6xl tracking-tight">

@@ -16,7 +16,7 @@ const FAQS = [
   {
     question: "¿Cómo pagan?",
     answer:
-      "En efectivo, en el momento, cuando te entregamos la guitarra revisada. También aceptamos transferencia si la preferís. Sin esperas y sin comisiones.",
+      "En efectivo, en el momento, cuando te entregamos la guitarra revisada. También aceptamos transferencia si la preferís.",
   },
   {
     question: "¿Reciben permutas?",
@@ -24,14 +24,14 @@ const FAQS = [
       "Sí. Si tenés una guitarra y querés cambiarla por otra del catálogo, tasamos la tuya y ajustamos la diferencia. Es uno de los formatos que más usamos.",
   },
   {
+    question: "¿Y si no quiero vendérsela a La Clavija?",
+    answer:
+      "Te ofrecemos publicarla en nuestro catálogo a cambio de una comisión, que es más baja que la de la mayoría de las tiendas. Vos ponés el precio (o lo definimos juntos), nosotros hacemos las fotos y la descripción, y cobrás cuando se vende. Sirve si estás dispuesto a esperar un poco por un mejor precio.",
+  },
+  {
     question: "¿Compran guitarras dañadas o sin caso?",
     answer:
       "Sí, depende del estado. Mandanos fotos del daño y te tasamos igual. La revisamos personalmente antes de revender, así que estado original no es deal-breaker.",
-  },
-  {
-    question: "¿Tengo que ir a algún lado para que la vean?",
-    answer:
-      "No, coordinamos nosotros. Cuando hay interés mutuo después del intercambio inicial, acordamos un punto de encuentro en Montevideo para verla en persona.",
   },
   {
     question: "¿Están solo en Montevideo o compran en el interior?",
@@ -41,7 +41,7 @@ const FAQS = [
   {
     question: "¿Compran solo guitarras o también amplis y pedales?",
     answer:
-      "Nos enfocamos en guitarras (eléctricas, acústicas, clásicas y bajos). Amplis y pedales solo si vienen en lote con una guitarra que nos interese.",
+      "Guitarras (eléctricas, acústicas, clásicas y bajos) y amplificadores los compramos por separado. Pedales, solo si vienen en combo con una guitarra o un lote más grande que nos interese.",
   },
 ];
 
@@ -72,9 +72,9 @@ export default function SellPage() {
               <span className="italic font-light text-muted-foreground">y pagamos en efectivo.</span>
             </h1>
             <p className="mt-8 text-lg text-muted-foreground leading-relaxed max-w-2xl">
-              Si tenés una guitarra que querés vender, dale. Sin comisiones, sin esperar a que alguien la
-              compre. Te ofertamos en 24 horas y, si te conviene, coordinamos visita y pagamos en efectivo o
-              transferencia en el momento.
+              Dos caminos: <span className="text-foreground">te la compramos nosotros</span> (te ofertamos en
+              24 horas), o <span className="text-foreground">la publicamos por vos en el catálogo</span> a
+              cambio de una comisión, si preferís apuntar a un precio más alto.
             </p>
             <div className="mt-10">
               <Button asChild size="lg" variant="accent">
@@ -92,6 +92,57 @@ export default function SellPage() {
                 sizes="(min-width: 1024px) 500px, 90vw"
                 className="object-cover"
               />
+            </div>
+          </Reveal>
+        </div>
+      </section>
+
+      <section className="mx-auto max-w-(--container-2xl) px-5 sm:px-8 py-20 md:py-24 border-t border-dashed border-border">
+        <Reveal className="max-w-2xl mb-12 md:mb-16">
+          <p className="mono-meta text-accent">Cómo lo hacemos</p>
+          <h2 className="mt-4 font-serif text-4xl md:text-5xl tracking-tight">
+            Dos maneras de vender.
+          </h2>
+          <p className="mt-4 text-muted-foreground leading-relaxed">
+            Elegí la que mejor te sirva. En cualquier caso arrancamos con el mismo formulario y despacio
+            vemos qué conviene.
+          </p>
+        </Reveal>
+
+        <div className="grid md:grid-cols-2 gap-6 md:gap-8">
+          <Reveal>
+            <div className="h-full rounded-md border border-border p-6 md:p-8 bg-card/40">
+              <p className="mono-meta text-accent">Opción 1</p>
+              <h3 className="mt-3 font-serif text-2xl md:text-3xl tracking-tight">
+                Te la compramos nosotros.
+              </h3>
+              <p className="mt-4 text-muted-foreground leading-relaxed">
+                Nosotros tasamos la guitarra y te hacemos una oferta directa. Si te sirve, coordinamos y
+                pagamos en efectivo o transferencia en el momento.
+              </p>
+              <ul className="mt-6 space-y-2 text-sm">
+                <li className="flex gap-2"><span className="text-accent">·</span> Oferta en 24 horas</li>
+                <li className="flex gap-2"><span className="text-accent">·</span> Pago inmediato</li>
+                <li className="flex gap-2"><span className="text-accent">·</span> Sin esperas, sin intermediarios</li>
+              </ul>
+            </div>
+          </Reveal>
+          <Reveal delay={0.1}>
+            <div className="h-full rounded-md border border-dashed border-border p-6 md:p-8 bg-card/40">
+              <p className="mono-meta text-accent">Opción 2</p>
+              <h3 className="mt-3 font-serif text-2xl md:text-3xl tracking-tight">
+                La publicamos por vos.
+              </h3>
+              <p className="mt-4 text-muted-foreground leading-relaxed">
+                Si preferís apuntar a un precio más alto y no tenés apuro, la subimos al catálogo con nuestras
+                fotos y descripción a cambio de una <span className="text-foreground">comisión más baja que la
+                de la mayoría de las tiendas</span>. Cobrás recién cuando se vende.
+              </p>
+              <ul className="mt-6 space-y-2 text-sm">
+                <li className="flex gap-2"><span className="text-accent">·</span> Aparece en el catálogo curado</li>
+                <li className="flex gap-2"><span className="text-accent">·</span> Nosotros hacemos fotos, texto y contacto</li>
+                <li className="flex gap-2"><span className="text-accent">·</span> Comisión por debajo del promedio del rubro</li>
+              </ul>
             </div>
           </Reveal>
         </div>

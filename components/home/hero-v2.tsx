@@ -60,7 +60,7 @@ export function HeroV2() {
         <h1 className="mt-5 font-serif text-4xl sm:text-6xl md:text-7xl tracking-tight max-w-4xl leading-[1.02]">
           <span className="block">Guitarras seleccionadas.</span>
           <span className="block italic font-light text-muted-foreground">
-            Compra, venta y permuta en Montevideo.
+            Compra, venta y permuta.
           </span>
         </h1>
         <motion.div variants={itemVariants} className="mt-8 flex flex-wrap gap-3">
