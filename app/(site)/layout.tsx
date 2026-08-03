@@ -7,7 +7,19 @@ import { localBusinessSchema, websiteSchema } from "@/lib/seo";
 import { publicImageUrl } from "@/lib/supabase/storage";
 
 export default async function SiteLayout({ children }: { children: React.ReactNode }) {
-  const promo = await getPromoConfig();
+  // Debug logs para diagnosticar 500 en Cloudflare — quitar después de deploy exitoso
+  console.log("[SiteLayout] env check", {
+    hasSupabaseUrl: !!process.env.NEXT_PUBLIC_SUPABASE_URL,
+    hasSupabaseAnonKey: !!process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY,
+    hasSiteUrl: !!process.env.NEXT_PUBLIC_SITE_URL,
+  });
+
+  let promo: Awaited<ReturnType<typeof getPromoConfig>> = null;
+  try {
+    promo = await getPromoConfig();
+  } catch (err) {
+    console.error("[SiteLayout] getPromoConfig threw:", err);
+  }
 
   const showPromo =
     promo?.active &&
