@@ -2,9 +2,11 @@
  * Config del Worker de Cloudflare para deploy vía Pages/Workers.
  * Este proyecto se despliega con `pnpm cf:deploy` (ver package.json).
  *
- * Env vars: se configuran desde el dashboard de Cloudflare
- * (Pages → Settings → Environment variables). Las que empiezan con
- * NEXT_PUBLIC_ deben estar disponibles en build time también.
+ * IMPORTANTE — routes y vars viven ACÁ, no en el dashboard.
+ *   - `wrangler deploy` pisa las routes y vars del dashboard con lo que dice
+ *     este archivo. Si algo se maneja desde el dashboard se pierde al deploy.
+ *   - Los `secrets` (SUPABASE_SERVICE_ROLE_KEY) SÍ viven en el dashboard porque
+ *     wrangler nunca los pisa (por diseño). Ver Settings → Variables and secrets.
  */
 {
   "$schema": "node_modules/wrangler/config-schema.json",
@@ -18,5 +20,29 @@
   },
   "observability": {
     "enabled": true
+  },
+
+  // Custom domains — mapean el Worker a laclavija.com.uy y www.
+  "routes": [
+    {
+      "pattern": "laclavija.com.uy",
+      "zone_name": "laclavija.com.uy",
+      "custom_domain": true
+    },
+    {
+      "pattern": "www.laclavija.com.uy",
+      "zone_name": "laclavija.com.uy",
+      "custom_domain": true
+    }
+  ],
+
+  // Variables públicas — se inyectan al Worker en runtime.
+  // (Las mismas están en el dashboard build settings para que Next las
+  // bakee en el bundle a build time. Duplicación intencional.)
+  "vars": {
+    "NEXT_PUBLIC_SITE_URL": "https://laclavija.com.uy",
+    "NEXT_PUBLIC_WHATSAPP_NUMBER": "59898125667",
+    "NEXT_PUBLIC_SUPABASE_URL": "https://dqvcjdzmtomkjsufmffp.supabase.co",
+    "NEXT_PUBLIC_SUPABASE_ANON_KEY": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRxdmNqZHptdG9ta2pzdWZtZmZwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzk4MDA4NDUsImV4cCI6MjA5NTM3Njg0NX0.RCzBfVt0oA-QM5lKnmrzQo0jOEHB-CX9xswnrXJp8LM"
   }
 }
