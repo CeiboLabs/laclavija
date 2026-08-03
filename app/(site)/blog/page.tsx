@@ -7,6 +7,12 @@ import { breadcrumbSchema } from "@/lib/seo";
 import { getPublishedBlogPosts } from "@/lib/queries";
 import { cn } from "@/lib/utils";
 
+// Dinamico — con staticAssetsIncrementalCache (read-only) en Cloudflare,
+// las paginas SSG NO se pueden revalidar en runtime. Como el listado
+// depende de la DB (nuevos posts publicados desde admin), corre en cada
+// request contra Supabase (RTT ~50ms, aceptable).
+export const dynamic = "force-dynamic";
+
 export const metadata: Metadata = {
   title: "Blog",
   description:

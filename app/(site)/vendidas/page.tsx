@@ -6,6 +6,11 @@ import { JsonLd } from "@/components/seo/json-ld";
 import { getCatalog } from "@/lib/queries";
 import { breadcrumbSchema } from "@/lib/seo";
 
+// Dinamico — el histórico depende del stock actual de la DB (guitarras
+// que se van vendiendo desde el admin). Con staticAssetsIncrementalCache
+// read-only, un SSG no se actualiza; dynamic pega a Supabase en cada request.
+export const dynamic = "force-dynamic";
+
 export const metadata: Metadata = {
   title: "Guitarras vendidas",
   description:
