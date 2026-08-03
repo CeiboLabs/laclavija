@@ -1,7 +1,15 @@
+# No es un monorepo — usamos este archivo solo para configuracion de pnpm.
+# El campo `packages` es obligatorio en pnpm 10.x aunque solo declaremos el
+# root como package. Con `.` decimos "este proyecto es el unico package".
+packages:
+  - "."
+
+# Skippear el check automatico de deps al arrancar comandos (bug con Node 25 local).
 verify-deps-before-run: false
 
-allowBuilds:
-  esbuild: set this to true or false
-  sharp: set this to true or false
-  unrs-resolver: set this to true or false
-  workerd: set this to true or false
+# Aprobar builds de dependencias con scripts nativos.
+onlyBuiltDependencies:
+  - esbuild
+  - sharp
+  - unrs-resolver
+  - workerd
