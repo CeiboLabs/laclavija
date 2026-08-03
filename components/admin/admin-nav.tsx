@@ -3,7 +3,7 @@
 import * as React from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { BarChart3, FileText, Guitar, Megaphone, LogOut, Home, Menu } from "lucide-react";
+import { BarChart3, FileText, Guitar, Megaphone, LogOut, Home, Menu, UserCog } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { signOutAction } from "@/app/admin/login/actions";
 import { Sheet, SheetContent, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
@@ -15,6 +15,7 @@ const links = [
   { href: "/admin/blog", label: "Blog", icon: FileText },
   { href: "/admin/estadisticas", label: "Estadísticas", icon: BarChart3 },
   { href: "/admin/promo", label: "Promo modal", icon: Megaphone },
+  { href: "/admin/cuenta", label: "Mi cuenta", icon: UserCog },
 ];
 
 function NavBody({ email, onNavigate }: { email: string; onNavigate?: () => void }) {
