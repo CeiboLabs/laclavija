@@ -1,6 +1,4 @@
 import { ImageResponse } from "next/og";
-import { readFileSync } from "node:fs";
-import { join } from "node:path";
 import { BUSINESS } from "@/lib/constants";
 
 export const alt = `${BUSINESS.name} — Guitarras en Montevideo`;
@@ -8,12 +6,19 @@ export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
 // Logo embebido como data URL: render offline, sin depender de la red.
-const logoData = readFileSync(
-  join(process.cwd(), "public/brand/la-clavija-logo.png"),
-);
-const logoSrc = `data:image/png;base64,${logoData.toString("base64")}`;
+// IMPORTANTE: lazy — hacer readFileSync a nivel de módulo rompe el import
+// del módulo en Cloudflare Workers (no hay filesystem en runtime), y como
+// Next importa este módulo al resolver metadata de cualquier página dinámica,
+// hace que TODAS las rutas dinámicas tiren "Server Components render" error.
+async function getLogoSrc() {
+  const { readFileSync } = await import("node:fs");
+  const { join } = await import("node:path");
+  const logoData = readFileSync(join(process.cwd(), "public/brand/la-clavija-logo.png"));
+  return `data:image/png;base64,${logoData.toString("base64")}`;
+}
 
-export default function OpengraphImage() {
+export default async function OpengraphImage() {
+  const logoSrc = await getLogoSrc();
   return new ImageResponse(
     (
       <div
