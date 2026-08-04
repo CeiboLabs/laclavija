@@ -6,9 +6,11 @@ import { TopMarquee } from "@/components/layout/top-marquee";
 import { getLatestProducts } from "@/lib/queries";
 import { BUSINESS } from "@/lib/constants";
 
-// Revalida el HTML cacheado en KV cada 60s. Ademas, revalidatePath() desde
-// server actions del admin invalida al instante cuando cambia contenido.
-export const revalidate = 60;
+// TODO: cuando se resuelva el BAILOUT_TO_CLIENT_SIDE_RENDERING de la home
+// (algun componente hijo hace bailout del SSG y rompe el prerender),
+// podemos volver a SSG con revalidate=60 y aprovechar el KV cache.
+// Por ahora dynamic para que TopMarquee/LatestArrivals rendericen server-side.
+export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
   description: BUSINESS.description,

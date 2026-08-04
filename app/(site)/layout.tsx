@@ -6,6 +6,11 @@ import { getPromoConfig } from "@/lib/queries";
 import { localBusinessSchema, websiteSchema } from "@/lib/seo";
 import { publicImageUrl } from "@/lib/supabase/storage";
 
+// TODO: cuando se resuelva el BAILOUT del SSG, volver a SSG normal para
+// aprovechar el KV cache. Por ahora dynamic para que Footer.marquee
+// (getRecentlySold) refleje cambios de la DB en cada request.
+export const dynamic = "force-dynamic";
+
 export default async function SiteLayout({ children }: { children: React.ReactNode }) {
   const promo = await getPromoConfig();
 
