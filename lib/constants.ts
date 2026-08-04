@@ -14,7 +14,7 @@ export const BUSINESS = {
   addressLocality: "Montevideo",
   addressRegion: "Montevideo",
   country: "UY",
-  instagram: "https://instagram.com/laclavija.uy",
+  instagram: "https://instagram.com/laclavijauy",
   // Sin + ni espacios. Ejemplo válido: 59899123456
   whatsappNumber: process.env.NEXT_PUBLIC_WHATSAPP_NUMBER ?? "59898125667",
   // Coordenadas placeholder (Centro de Montevideo). Reemplazar por la real.
