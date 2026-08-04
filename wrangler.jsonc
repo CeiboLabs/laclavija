@@ -50,5 +50,17 @@
     "NEXT_PUBLIC_WHATSAPP_NUMBER": "59898125667",
     "NEXT_PUBLIC_SUPABASE_URL": "https://dqvcjdzmtomkjsufmffp.supabase.co",
     "NEXT_PUBLIC_SUPABASE_ANON_KEY": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRxdmNqZHptdG9ta2pzdWZtZmZwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzk4MDA4NDUsImV4cCI6MjA5NTM3Njg0NX0.RCzBfVt0oA-QM5lKnmrzQo0jOEHB-CX9xswnrXJp8LM"
-  }
+  },
+
+  // KV namespace para el incremental cache de Next.js. Guarda paginas SSG
+  // pre-renderizadas y las revalida on-demand. Reemplaza al staticAssets
+  // read-only anterior — permite que revalidatePath() funcione desde
+  // server actions (cargar guitarra desde admin → home se actualiza sola).
+  // Free tier: 100k reads/dia, mas que suficiente.
+  "kv_namespaces": [
+    {
+      "binding": "NEXT_INC_CACHE_KV",
+      "id": "3c5fed458678464489402be70e9cce4c"
+    }
+  ]
 }

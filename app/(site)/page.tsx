@@ -6,10 +6,6 @@ import { TopMarquee } from "@/components/layout/top-marquee";
 import { getLatestProducts } from "@/lib/queries";
 import { BUSINESS } from "@/lib/constants";
 
-// Dinamico — TopMarquee muestra ultimos productos y LatestArrivals los
-// destacados, ambos leen la DB. Ver [[ssg-vs-dynamic-cloudflare]].
-export const dynamic = "force-dynamic";
-
 export const metadata: Metadata = {
   description: BUSINESS.description,
   keywords: [
