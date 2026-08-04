@@ -7,6 +7,9 @@ import { breadcrumbSchema } from "@/lib/seo";
 import { getPublishedBlogPosts } from "@/lib/queries";
 import { cn } from "@/lib/utils";
 
+// Revalida el listado cada 60s ademas de invalidacion via revalidatePath().
+export const revalidate = 60;
+
 export const metadata: Metadata = {
   title: "Blog",
   description:

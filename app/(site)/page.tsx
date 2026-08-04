@@ -6,6 +6,10 @@ import { TopMarquee } from "@/components/layout/top-marquee";
 import { getLatestProducts } from "@/lib/queries";
 import { BUSINESS } from "@/lib/constants";
 
+// Revalida el HTML cacheado en KV cada 60s. Ademas, revalidatePath() desde
+// server actions del admin invalida al instante cuando cambia contenido.
+export const revalidate = 60;
+
 export const metadata: Metadata = {
   description: BUSINESS.description,
   keywords: [

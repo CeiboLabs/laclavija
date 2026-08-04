@@ -6,6 +6,9 @@ import { JsonLd } from "@/components/seo/json-ld";
 import { getCatalog } from "@/lib/queries";
 import { breadcrumbSchema } from "@/lib/seo";
 
+// Revalida cada 60s ademas de invalidacion via revalidatePath("/vendidas").
+export const revalidate = 60;
+
 export const metadata: Metadata = {
   title: "Guitarras vendidas",
   description:

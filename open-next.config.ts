@@ -1,6 +1,5 @@
 import { defineCloudflareConfig } from "@opennextjs/cloudflare";
 import kvIncrementalCache from "@opennextjs/cloudflare/overrides/incremental-cache/kv-incremental-cache";
-import { withRegionalCache } from "@opennextjs/cloudflare/overrides/incremental-cache/regional-cache";
 
 /**
  * Config de OpenNext para Cloudflare. defineCloudflareConfig() maneja los
@@ -20,9 +19,7 @@ import { withRegionalCache } from "@opennextjs/cloudflare/overrides/incremental-
  * Free tier de KV: 100k reads/dia, 1000 writes/dia, 1GB storage.
  */
 const cf = defineCloudflareConfig({
-  incrementalCache: withRegionalCache(kvIncrementalCache, {
-    mode: "long-lived",
-  }),
+  incrementalCache: kvIncrementalCache,
 });
 
 export default {
