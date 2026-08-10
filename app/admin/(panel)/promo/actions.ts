@@ -4,9 +4,9 @@ import { revalidatePath } from "next/cache";
 import { createServerSupabase } from "@/lib/supabase/server";
 import { STORAGE_BUCKET } from "@/lib/supabase/storage";
 
-// Compresion + WebP la hace el cliente (ver lib/image-compress.ts).
-// El server solo valida tamaño y sube tal cual. Sharp no corre en Cloudflare Workers.
-const MAX_UPLOAD_BYTES = 3 * 1024 * 1024; // 3MB después de compresión cliente
+// El cliente solo redimensiona fotos gigantes y preserva el formato original
+// (ver lib/image-compress.ts). Sharp no corre en Cloudflare Workers.
+const MAX_UPLOAD_BYTES = 6 * 1024 * 1024;
 
 export type SavePromoState = { ok: boolean; error?: string };
 
@@ -53,14 +53,13 @@ export async function savePromoAction(
 
   if (hasNewImage) {
     if (imageFile.size > MAX_UPLOAD_BYTES) {
-      return { ok: false, error: `La imagen pesa más de ${MAX_UPLOAD_BYTES / 1024 / 1024}MB después de comprimir.` };
+      return { ok: false, error: `La imagen pesa más de ${MAX_UPLOAD_BYTES / 1024 / 1024}MB.` };
     }
-    // Ya viene comprimida y en WebP desde el cliente. Solo subir.
-    const ext = imageFile.name.split(".").pop()?.toLowerCase() || "webp";
+    const ext = imageFile.name.split(".").pop()?.toLowerCase() || "jpg";
     const path = `promo/${Date.now()}.${ext}`;
     const { error: upErr } = await supabase.storage
       .from(STORAGE_BUCKET)
-      .upload(path, imageFile, { contentType: imageFile.type || "image/webp", upsert: false });
+      .upload(path, imageFile, { contentType: imageFile.type || "image/jpeg", upsert: false });
     if (upErr) return { ok: false, error: upErr.message };
     nextImagePath = path;
   } else if (removeImage) {

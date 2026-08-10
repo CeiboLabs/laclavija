@@ -180,7 +180,7 @@ export function BlogForm({
                 </>
               )}
             </div>
-            <p className="text-xs text-muted-foreground">JPG, PNG o WebP — se convierte a WebP automáticamente</p>
+            <p className="text-xs text-muted-foreground">JPG, PNG o WebP — se sube en el formato original</p>
           </div>
         )}
 

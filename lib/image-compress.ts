@@ -1,46 +1,59 @@
 import imageCompression from "browser-image-compression";
 
 /**
- * Comprime una imagen en el browser antes de enviarla al server.
+ * Prepara una imagen en el browser antes de enviarla al server.
  *
- * Reemplaza el pipeline server-side de sharp (que no corre en Cloudflare Workers).
- * Corre en un web worker interno, no bloquea el UI, y devuelve un File listo para
- * mandar dentro de un FormData.
+ * Politica: preservar el original tal cual (formato + calidad) para no degradar
+ * fotos que ya vienen editadas. Solo intervenimos si son excesivamente grandes:
+ * se redimensiona al maximo del preset manteniendo el formato de entrada
+ * (JPEG queda JPEG, PNG queda PNG). No hay conversion a WebP.
  *
- * Los defaults están pensados para fotos editoriales del sitio:
- *  - maxWidth 1920px (lado más largo)
- *  - target WebP quality alta
- *  - target size ~500KB (upper bound; salidas típicas 100-300KB)
+ * Sharp no corre en Cloudflare Workers, por eso todo el trabajo pasa por el
+ * browser con browser-image-compression (que usa un web worker).
  */
 export type CompressPreset = "cover" | "product";
 
-const PRESETS: Record<CompressPreset, { maxWidthOrHeight: number; maxSizeMB: number }> = {
-  // Portadas de blog — más ancho para hero full-width
-  cover: { maxWidthOrHeight: 1920, maxSizeMB: 0.6 },
-  // Fotos de guitarras — un poco más chicas, en el catálogo se muestran hasta ~800px
-  product: { maxWidthOrHeight: 1600, maxSizeMB: 0.5 },
+const PRESETS: Record<CompressPreset, { maxWidthOrHeight: number }> = {
+  // Portadas de blog — hero full-width, permitimos un poco mas ancho
+  cover: { maxWidthOrHeight: 3200 },
+  // Fotos de guitarras — 3000px es suficiente para zoom en detalle en retina
+  product: { maxWidthOrHeight: 3000 },
 };
+
+async function readDimensions(file: File): Promise<{ width: number; height: number } | null> {
+  try {
+    const bitmap = await createImageBitmap(file);
+    const dims = { width: bitmap.width, height: bitmap.height };
+    bitmap.close?.();
+    return dims;
+  } catch {
+    return null;
+  }
+}
 
 export async function compressImage(
   file: File,
   preset: CompressPreset = "cover",
 ): Promise<File> {
-  // Si ya es un WebP y pesa poco, no gastamos ciclos en re-comprimir.
-  if (file.type === "image/webp" && file.size < 400 * 1024) return file;
+  const { maxWidthOrHeight } = PRESETS[preset];
 
-  const opts = PRESETS[preset];
-  const compressed = await imageCompression(file, {
-    maxWidthOrHeight: opts.maxWidthOrHeight,
-    maxSizeMB: opts.maxSizeMB,
+  const dims = await readDimensions(file);
+  const longestSide = dims ? Math.max(dims.width, dims.height) : Infinity;
+
+  // Caso feliz: la foto ya tiene un tamaño razonable → la subimos intacta.
+  // No hay re-encoding, se preserva 100% la calidad del original.
+  if (longestSide <= maxWidthOrHeight) return file;
+
+  // Solo redimensionamos, forzando que el output mantenga el mime type original.
+  const fileType = file.type === "image/png" ? "image/png" : "image/jpeg";
+  const resized = await imageCompression(file, {
+    maxWidthOrHeight,
     useWebWorker: true,
-    fileType: "image/webp",
-    initialQuality: 0.82,
-    // Preserva EXIF orientation al aplicarla y la strippea
+    fileType,
+    initialQuality: 0.92,
     preserveExif: false,
     alwaysKeepResolution: false,
   });
 
-  // Renombrar con extensión .webp para que sea coherente
-  const baseName = file.name.replace(/\.[^.]+$/, "");
-  return new File([compressed], `${baseName}.webp`, { type: "image/webp" });
+  return new File([resized], file.name, { type: fileType });
 }

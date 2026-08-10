@@ -4,9 +4,9 @@ import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { createServerSupabase } from "@/lib/supabase/server";
 import { STORAGE_BUCKET } from "@/lib/supabase/storage";
-// Compresion + WebP la hace el cliente (ver lib/image-compress.ts).
-// El server solo valida tamaño y sube tal cual. Sharp no corre en Cloudflare Workers.
-const MAX_UPLOAD_BYTES = 3 * 1024 * 1024; // 3MB después de compresión cliente
+// El cliente solo redimensiona fotos gigantes (>3000px) y preserva el formato
+// original (ver lib/image-compress.ts). Sharp no corre en Cloudflare Workers.
+const MAX_UPLOAD_BYTES = 6 * 1024 * 1024;
 import type { GuitarSpecs, GuitarStatus, GuitarType, ProductCategory } from "@/lib/types";
 
 const TYPES: GuitarType[] = ["electric", "acoustic", "classical", "bass"];
@@ -144,7 +144,7 @@ function readFields(formData: FormData): GuitarFields | { error: string } {
 }
 
 /**
- * Procesa con sharp + sube al bucket + inserta en guitar_images.
+ * Sube al bucket + inserta en guitar_images.
  * Devuelve { ok } o un error stringeado por imagen. No tira: ese path es
  * "best effort" para que una foto que falla no rompa toda la creación.
  */
@@ -156,14 +156,13 @@ async function uploadProcessedImage(
   position: number,
 ): Promise<{ ok: true } | { ok: false; error: string }> {
   if (file.size > MAX_UPLOAD_BYTES) {
-    return { ok: false, error: `"${file.name}" pesa más de ${MAX_UPLOAD_BYTES / 1024 / 1024}MB después de comprimir.` };
+    return { ok: false, error: `"${file.name}" pesa más de ${MAX_UPLOAD_BYTES / 1024 / 1024}MB.` };
   }
-  // Ya viene comprimida y en WebP desde el cliente. Solo subir.
-  const ext = file.name.split(".").pop()?.toLowerCase() || "webp";
+  const ext = file.name.split(".").pop()?.toLowerCase() || "jpg";
   const path = `${slug}/${position}-${Date.now()}.${ext}`;
   const { error: upErr } = await supabase.storage
     .from(STORAGE_BUCKET)
-    .upload(path, file, { contentType: file.type || "image/webp", upsert: false });
+    .upload(path, file, { contentType: file.type || "image/jpeg", upsert: false });
   if (upErr) return { ok: false, error: upErr.message };
 
   const { error: insErr } = await supabase

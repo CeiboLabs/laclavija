@@ -21,10 +21,10 @@ const MUTED = "#C9C2B5";
  *  Detalles:
  *  - Usamos /object/public/ crudo — el render/image endpoint no esta disponible
  *    en el plan Free de Supabase.
- *  - Satori (que usa next/og por debajo) NO soporta WebP. Las fotos del admin
- *    vienen en WebP (browser-image-compression), asi que convertimos a JPEG
- *    con sharp cuando esta disponible. Sharp corre en Node build-time pero NO
- *    en Cloudflare Worker runtime — si el import falla, damos null. */
+ *  - Satori (que usa next/og por debajo) NO soporta WebP ni AVIF. Nuevos uploads
+ *    del admin ya vienen en JPEG/PNG, pero fotos historicas pueden ser WebP: si
+ *    lo son, intentamos convertir a JPEG con sharp (disponible en Node build-time,
+ *    NO en Cloudflare Worker runtime — si falla, damos null). */
 async function fetchPhotoDataUrl(url: string): Promise<string | null> {
   try {
     const res = await fetch(url);

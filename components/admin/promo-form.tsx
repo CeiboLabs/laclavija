@@ -119,8 +119,8 @@ export function PromoForm({ initial }: { initial: Initial }) {
         <div className="grid gap-2">
           <Label>Imagen (opcional)</Label>
           <p className="text-xs text-muted-foreground -mt-1">
-            Se optimiza y se convierte a WebP automáticamente. Si subís otra después, la
-            anterior se borra del storage.
+            Se sube en el formato original (solo se achica si es enorme). Si subís otra
+            después, la anterior se borra del storage.
           </p>
           <div className="flex items-start gap-4">
             <div className="relative size-24 shrink-0 rounded-md border border-border bg-secondary overflow-hidden">

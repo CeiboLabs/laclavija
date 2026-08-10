@@ -31,12 +31,12 @@ export function GuitarImages({ guitarId, images }: { guitarId: string; images: I
   const inputRef = React.useRef<HTMLInputElement>(null);
 
   async function uploadOne(file: File): Promise<{ ok: true } | { ok: false; error: string }> {
-    // Comprimir cliente-side antes de enviar (resize + WebP quality 82).
+    // Solo redimensiona si la foto es enorme (>3000px). Formato original preservado.
     let optimized: File;
     try {
       optimized = await compressImage(file, "product");
     } catch (err) {
-      return { ok: false, error: `No se pudo optimizar: ${(err as Error).message}` };
+      return { ok: false, error: `No se pudo procesar: ${(err as Error).message}` };
     }
     const fd = new FormData();
     fd.append("file", optimized);
