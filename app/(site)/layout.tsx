@@ -1,5 +1,6 @@
 import { Header } from "@/components/layout/header";
 import { Footer } from "@/components/layout/footer";
+import { FloatingWhatsApp } from "@/components/layout/floating-whatsapp";
 import { PromoModal } from "@/components/promo/promo-modal";
 import { JsonLd } from "@/components/seo/json-ld";
 import { getPromoConfig } from "@/lib/queries";
@@ -25,6 +26,7 @@ export default async function SiteLayout({ children }: { children: React.ReactNo
       <Header />
       <main className="flex-1">{children}</main>
       <Footer />
+      <FloatingWhatsApp />
       {showPromo && promo ? (
         <PromoModal
           version={promo.updated_at}

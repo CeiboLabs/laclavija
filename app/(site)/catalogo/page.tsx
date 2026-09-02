@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import { Suspense } from "react";
+import { ArrowRight } from "lucide-react";
 import { FilterSidebar } from "@/components/catalog/filter-sidebar";
 import { FilterSheet } from "@/components/catalog/filter-sheet";
 import { ActiveFilters } from "@/components/catalog/active-filters";
@@ -57,6 +59,13 @@ export default async function CatalogPage({ searchParams }: { searchParams: Prom
           <p className="mt-4 text-muted-foreground max-w-xl">
             Cada pieza revisada personalmente antes de subir al catálogo. Hacé click para fotos, specs e historia.
           </p>
+          <Link
+            href="/vendidas"
+            className="mt-6 inline-flex items-center gap-2 px-4 py-2 border border-border rounded-full text-[11px] uppercase tracking-widest text-muted-foreground hover:text-foreground hover:border-foreground/40 transition-colors group"
+          >
+            Historial de vendidas
+            <ArrowRight className="w-3.5 h-3.5 transition-transform group-hover:translate-x-1" />
+          </Link>
         </div>
 
         <Suspense fallback={null}>
@@ -79,6 +88,19 @@ export default async function CatalogPage({ searchParams }: { searchParams: Prom
           <div className="flex-1 min-w-0">
             <GuitarGrid guitars={guitars} />
           </div>
+        </div>
+
+        <div className="mt-24 pt-12 border-t border-border text-center">
+          <p className="font-serif text-2xl md:text-3xl tracking-tight">
+            ¿Querés ver qué pasó por acá?
+          </p>
+          <Link
+            href="/vendidas"
+            className="mt-4 inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors group"
+          >
+            Guitarras vendidas
+            <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
+          </Link>
         </div>
       </section>
     </>
