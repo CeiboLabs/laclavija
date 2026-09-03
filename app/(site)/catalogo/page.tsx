@@ -13,13 +13,14 @@ import { getAllBrands, getCatalog } from "@/lib/queries";
 import { countActiveFilters, parseFilters } from "@/lib/filters";
 
 export const metadata: Metadata = {
-  title: "Catálogo de guitarras en Montevideo",
+  title: "Comprar guitarras usadas en Montevideo, Uruguay",
   description:
-    "Guitarras seleccionadas disponibles en Montevideo, Uruguay. Eléctricas, acústicas, clásicas y bajos. Comprá, vendé o permutá tu instrumento.",
+    "Comprá guitarras usadas en Montevideo: eléctricas, acústicas, clásicas y bajos. Cada pieza revisada personalmente antes de subir al catálogo.",
   keywords: [
-    "guitarras Montevideo",
+    "comprar guitarra Montevideo",
     "comprar guitarra Uruguay",
     "guitarras usadas Uruguay",
+    "guitarras Montevideo",
     "guitarras eléctricas Montevideo",
     "guitarras acústicas Uruguay",
   ],
@@ -53,8 +54,8 @@ export default async function CatalogPage({ searchParams }: { searchParams: Prom
             </p>
           </div>
           <h1 className="font-serif text-4xl md:text-6xl tracking-tight">
-            Guitarras y amps
-            <span className="text-muted-foreground italic font-light"> disponibles.</span>
+            Comprá guitarras y amps
+            <span className="text-muted-foreground italic font-light"> en Montevideo.</span>
           </h1>
           <p className="mt-4 text-muted-foreground max-w-xl">
             Cada pieza revisada personalmente antes de subir al catálogo. Hacé click para fotos, specs e historia.

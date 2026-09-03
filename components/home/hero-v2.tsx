@@ -66,7 +66,7 @@ export function HeroV2() {
         <motion.div variants={itemVariants} className="mt-8 flex flex-wrap gap-3">
           <Button asChild size="lg" variant="accent">
             <Link href="/catalogo" className="group">
-              Ver catálogo
+              Comprar guitarras
               <ArrowRight className="size-4 transition-transform duration-300 group-hover:translate-x-0.5" />
             </Link>
           </Button>

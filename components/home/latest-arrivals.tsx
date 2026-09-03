@@ -27,7 +27,7 @@ export function LatestArrivals({ products }: { products: Guitar[] }) {
             href="/catalogo"
             className="hidden sm:inline-flex mono-meta items-center gap-1.5 text-foreground hover:text-accent transition-colors group"
           >
-            Ver todo
+            Ver todas las guitarras
             <ArrowRight className="size-3 transition-transform group-hover:translate-x-0.5" />
           </Link>
         </Reveal>
