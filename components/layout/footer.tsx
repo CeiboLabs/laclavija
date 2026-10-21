@@ -150,7 +150,7 @@ export async function Footer() {
       </div>
 
       <div className="border-t border-dashed border-border">
-        <div className="mx-auto max-w-(--container-2xl) px-5 sm:px-8 py-5 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2">
+        <div className="mx-auto max-w-(--container-2xl) px-5 sm:px-8 pt-5 pb-24 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2">
           <p className="mono-meta text-[0.6rem]">
             © {new Date().getFullYear()} {BUSINESS.name} — Todos los derechos reservados
           </p>
