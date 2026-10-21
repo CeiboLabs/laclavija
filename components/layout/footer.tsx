@@ -155,14 +155,14 @@ export async function Footer() {
             © {new Date().getFullYear()} {BUSINESS.name} — Todos los derechos reservados
           </p>
           <p className="mono-meta text-[0.6rem]">
-            Hecho por{" "}
+            Desarrollado por{" "}
             <a
-              href="https://ceibolabs.dev"
+              href="https://brunojorba.com"
               target="_blank"
               rel="noopener noreferrer"
               className="group inline-flex items-center gap-1 text-accent font-bold underline underline-offset-4 decoration-accent/40 hover:decoration-accent transition-colors"
             >
-              CeiboLabs
+              Bruno Jorba
               <ArrowUpRight className="size-2.5 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
             </a>
           </p>
