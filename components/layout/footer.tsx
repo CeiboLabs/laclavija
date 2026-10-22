@@ -159,7 +159,7 @@ export async function Footer() {
             <a
               href="https://brunojorba.com"
               target="_blank"
-              rel="noopener noreferrer"
+              rel="noopener"
               className="group inline-flex items-center gap-1 text-accent font-bold underline underline-offset-4 decoration-accent/40 hover:decoration-accent transition-colors"
             >
               Bruno Jorba
